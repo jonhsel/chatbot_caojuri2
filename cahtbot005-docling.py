@@ -1,4 +1,4 @@
-import docling.document_converter
+#import docling.document_converter
 import streamlit as st
 import tempfile
 import os  # Importe o módulo os para lidar com arquivos e diretórios
@@ -7,7 +7,7 @@ from langchain.memory import ConversationBufferMemory
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
-import docling
+from docling.document_converter import DocumentConverter
 
 
 # Importe as funções de carregamento de arquivos
@@ -38,18 +38,13 @@ def carrega_arquivos(pasta_arquivos):
     for nome_arquivo in os.listdir(pasta_arquivos):
         caminho_arquivo = os.path.join(pasta_arquivos, nome_arquivo)
         if os.path.isfile(caminho_arquivo):
-            try:
-                documento = docling.document_converter(caminho_arquivo)
-                #documento = docling.process_file(caminho_arquivo)
-                #usa o docling para processar o arquivo                
+            converter = DocumentConverter()
+            documento = converter.convert(caminho_arquivo)
+        
+            if documento: # Verifica se o documento foi carregado com sucesso
+                documentos.append(documento)
 
-                if documento: # Verifica se o documento foi carregado com sucesso
-                    documentos.append(documento)
-
-            except Exception as e:
-                st.error(f"Erro ao carregar arquivo {nome_arquivo}: {e}")
-
-    return "\n\n".join(documentos)  # Concatena todos os documentos com separadores
+    return (documentos)  # Concatena todos os documentos com separadores
 
 def carrega_modelo(provedor, modelo, api_key, documentos):
 
