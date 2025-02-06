@@ -1,0 +1,48 @@
+span.css-10trblm.e1nzilvr0 {
+    background-color: #f8f9fb;
+    color: #100530;
+    border: 3px solid #ecebee;
+    padding: 5% 5% 5% 10%;
+    border-radius: 10px;
+    text-align: justify;
+}
+
+div.css-1om1ktf.ezh4s2r0 {
+    border: 2px solid #ff0000;
+    border-radius: 10px;
+    font-size: 14pt;
+}
+
+div.stAlert {
+    font-size: 12pt;
+    color: #ff0000;  
+    border: 2px solid #552fa1;
+    border-radius: 10px;
+}
+
+p {
+    font-size: 14pt;
+    
+    
+}
+
+textarea{
+    font-size: 14pt;
+}
+
+div.st-emotion-cache-1c7y2kd{
+    background-color: rgba(250, 210, 210, 0.5);
+}
+
+div.st-emotion-cache-bho8sy{
+    background-color: rgb(5, 50, 169);
+}
+
+div.stChatMessage.st-emotion-cache-4oy321.eeusbqq4 {
+    background-color: rgb(230, 240, 250);
+}
+
+button.st-emotion-cache-1rci6ej.ef3psqc13{
+    background-color: rgb(251, 233, 233);
+    border: 1px solid rgb(255, 75, 75);
+}
