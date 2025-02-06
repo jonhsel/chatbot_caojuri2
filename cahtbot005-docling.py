@@ -37,7 +37,8 @@ def carrega_arquivos(pasta_arquivos):
         caminho_arquivo = os.path.join(pasta_arquivos, nome_arquivo)
         if os.path.isfile(caminho_arquivo):
             try:
-                documento = docling.process_file(caminho_arquivo)
+                documento
+                #documento = docling.process_file(caminho_arquivo)
                 #usa o docling para processar o arquivo                
 
                 if documento: # Verifica se o documento foi carregado com sucesso
