@@ -1,4 +1,5 @@
 #import docling.document_converter
+import docling.document_converter
 import streamlit as st
 import tempfile
 import os  # Importe o módulo os para lidar com arquivos e diretórios
@@ -6,9 +7,10 @@ import os  # Importe o módulo os para lidar com arquivos e diretórios
 from langchain.memory import ConversationBufferMemory
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+import shutil
 
 from docling.document_converter import DocumentConverter
-
+import docling
 
 # Importe as funções de carregamento de arquivos
 #from loaders import carrega_pdf, carrega_csv, carrega_txt, carrega_site, carrega_youtube
@@ -33,18 +35,44 @@ CONFIG_MODELOS = {  'OpenAI':
 
 MEMORIA = ConversationBufferMemory()
 
+# Diretórios de entrada e saída
+INPUT_DIR = './entrada'
+OUTPUT_DIR = './arquivos'
+FORMATO_CONVERSAO = 'md' # Formato Markdown
+
+# Função para converter arquivos
+def converter_arquivos(input_dir, output_dir, formato):
+    """Converte arquivos para o formato especificado."""
+    try:
+        # Verifica se os diretórios de entrada e saída existem
+        if not os.path.exists(input_dir):
+            raise FileNotFoundError(f"Diretório de entrada '{input_dir}' não encontrado.")
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)  # Cria o diretório de saída, se não existir
+
+        conversor = DocumentConverter()
+        conversor.convert_all(input_dir, output_dir, formato)
+
+        print(f"Todos os arquivos em '{input_dir}' foram convertidos para '{formato}' e salvos em '{output_dir}'.")
+
+    except FileNotFoundError as e:
+        print(f"Erro: {e}")
+    except Exception as e:
+        print(f"Ocorreu um erro durante a conversão: {e}")
+
+# Função para carregar arquivos (adaptada para usar a pasta 'arquivos')
 def carrega_arquivos(pasta_arquivos):
     documentos = []
     for nome_arquivo in os.listdir(pasta_arquivos):
         caminho_arquivo = os.path.join(pasta_arquivos, nome_arquivo)
         if os.path.isfile(caminho_arquivo):
-            converter = DocumentConverter()
-            documento = converter.convert(caminho_arquivo)
-        
-            if documento: # Verifica se o documento foi carregado com sucesso
-                documentos.append(documento)
-
-    return (documentos)  # Concatena todos os documentos com separadores
+            try:
+                with open(caminho_arquivo, 'r', encoding='utf-8') as f: # Especifica a codificação UTF-8
+                    conteudo = f.read()
+                    documentos.append(conteudo)
+            except Exception as e:
+                st.error(f"Erro ao ler o arquivo '{nome_arquivo}': {e}")
+    return documentos
 
 def carrega_modelo(provedor, modelo, api_key, documentos):
 
@@ -108,14 +136,19 @@ def pagina_chat():
 def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos', 'Modelo de IA'])
     with tabs_assistente[0]:
-        pasta_arquivos = 'arquivos'  # Define a pasta de arquivos
-        if not os.path.exists(pasta_arquivos) or not os.listdir(pasta_arquivos):
-            st.warning(f"Nenhum arquivo encontrado na pasta '{pasta_arquivos}'.")
-            return  # Sai da função se não houver arquivos na pasta
+        # Exibe os arquivos na pasta 'entrada'
+        if os.path.exists(INPUT_DIR) and os.listdir(INPUT_DIR):
+            st.write(f"Arquivos na pasta '{INPUT_DIR}':")
+            for filename in os.listdir(INPUT_DIR):
+                st.write(filename)
+        elif not os.path.exists(INPUT_DIR) or not os.listdir(INPUT_DIR): # Verifica se a pasta de entrada está vazia
+            st.warning(f"Nenhum arquivo encontrado na pasta '{INPUT_DIR}'.")
 
-        st.write(f"Arquivos encontrados na pasta '{pasta_arquivos}':")
-        for nome_arquivo in os.listdir(pasta_arquivos):
-            st.write(nome_arquivo)  # Lista os arquivos na sidebar
+        # Exibe os arquivos na pasta 'arquivos' (após a conversão)
+        if os.path.exists(OUTPUT_DIR) and os.listdir(OUTPUT_DIR):
+            st.write(f"Arquivos convertidos (Markdown) em '{OUTPUT_DIR}':")
+            for filename in os.listdir(OUTPUT_DIR):
+                st.write(filename)
 
     with tabs_assistente[1]:
         provedor = st.selectbox('Selecione a empresa criadora do modelo de IA', CONFIG_MODELOS.keys())
@@ -128,6 +161,8 @@ def sidebar():
         # ... (resto do código da aba de modelo de IA)
 
     if st.button('▶️ Iniciar o Assistente', use_container_width=True):
+        
+        pasta_arquivos = OUTPUT_DIR
         documentos = carrega_arquivos(pasta_arquivos)  # Carrega todos os arquivos
         carrega_modelo(provedor, modelo, api_key, documentos)
 
@@ -141,4 +176,9 @@ def main():
     # ... (resto do código principal)
 
 if __name__=='__main__':
+    # Cria os diretórios se não existirem
+    os.makedirs(INPUT_DIR, exist_ok=True)
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    # Converte os arquivos automaticamente ao iniciar o Streamlit
+    converter_arquivos(INPUT_DIR, OUTPUT_DIR, FORMATO_CONVERSAO)
     main()

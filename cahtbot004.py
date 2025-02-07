@@ -7,7 +7,14 @@ from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 
 # Importe as funções de carregamento de arquivos
-from loaders import carrega_pdf, carrega_csv, carrega_txt, carrega_site, carrega_youtube
+import nltk
+from loaders import carrega_pdf, carrega_csv, carrega_txt, carrega_site, carrega_youtube, carrega_md
+
+try:
+    nltk.data.find('tokenizers/punkt/punkt.pkl')  # Verifica se o punkt já está baixado
+except LookupError:
+    nltk.download('punkt_tab')
+    nltk.download('averaged_perceptron_tagger_eng')
 
 #===============
 #CSS
@@ -44,6 +51,8 @@ def carrega_arquivos(pasta_arquivos):
                     documento = carrega_csv(caminho_arquivo)
                 elif extensao == '.txt':
                     documento = carrega_txt(caminho_arquivo)
+                elif extensao == '.md':
+                    documento = carrega_md(caminho_arquivo)
                 # Adapte para outros tipos de arquivo se necessário
                 else:
                     st.warning(f"Tipo de arquivo não suportado: {extensao} - Arquivo: {nome_arquivo}")
@@ -63,17 +72,15 @@ def carrega_modelo(provedor, modelo, api_key, documentos):
         st.error("Nenhum documento foi carregado. Verifique a pasta 'arquivos'.")
         return
 
-    system_message = f''' Você é um assistente técnico chamado 'assistente do Jonh Selmo'.
+    system_message = f''' Você é o chatb.ot virtual do CAOJÚRI.
     Você possui acesso às seguintes informações vindas de um ou mais documentos:
     
     ####
     {documentos}
     ####
-    Utilize as informações fornecidas para basear suas respostas.
+    Utilize apenas as informações fornecidas nos documentos para basear suas respostas.
 
-    Sempre que houver $ na saída, substitua por S.
-
-    Se a informação do documento for algo como "Just a moment...Enable JavaScript and coockies to continue", sugira ao usuário carregar novamente o 'Assistente do Jonh Selmo'!
+   
     '''
 
     template = ChatPromptTemplate.from_messages([
