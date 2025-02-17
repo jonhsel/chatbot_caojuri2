@@ -24,7 +24,7 @@ with open('style.css') as f:
 
 #################
 
-st.image('images/chatbot2.png', width = 100, use_column_width=True )
+st.image('images/chatbot2.png')
 
 # Remova a seleção manual de tipo de arquivo
 # TIPOS_ARQUIVOS = ['Arquivos .pdf', 'Site', 'Youtube', 'Arquivos .csv', 'Arquivos .txt']
@@ -79,6 +79,8 @@ def carrega_modelo(provedor, modelo, api_key, documentos):
     {documentos}
     ####
     Utilize apenas as informações fornecidas nos documentos para basear suas respostas.
+
+    Caso algum link de url seja solicitado, informe apenas os existentes nas base de dados.
 
    
     '''
