@@ -35,6 +35,6 @@ O Tribunal do Júri é composto de um juiz de direito, que é seu presidente, e 
 
 Faça sua inscrição clicando no formulário disponível no link abaixo:
 
-**[Formulário de Inscrição](https://docs.google.com/forms/d/18yEs2Tu1DBQwri_h1iy5Bd3UVPrBay5LMYb5hB5MwaY/viewform)** do Jurado Voluntário.
+**https://docs.google.com/forms/d/18yEs2Tu1DBQwri_h1iy5Bd3UVPrBay5LMYb5hB5MwaY/viewform** do Jurado Voluntário.
 
 > **Importante:** os dados remetidos são mantidos em sigilo e não serão, em hipótese alguma, utilizados para outro fim que não seja o do projeto Jurado Voluntário.

@@ -24,7 +24,7 @@ with open('style.css') as f:
 
 #################
 
-st.image('images/chatbot2.png')
+st.image('images/chatbot4.png')
 
 # Remova a seleção manual de tipo de arquivo
 # TIPOS_ARQUIVOS = ['Arquivos .pdf', 'Site', 'Youtube', 'Arquivos .csv', 'Arquivos .txt']
@@ -72,15 +72,23 @@ def carrega_modelo(provedor, modelo, api_key, documentos):
         st.error("Nenhum documento foi carregado. Verifique a pasta 'arquivos'.")
         return
 
-    system_message = f''' Você é o chatb.ot virtual do CAOJÚRI.
+    system_message = f''' Você é o chatbot virtual do CAOJÚRI.
+    
     Você possui acesso às seguintes informações vindas de um ou mais documentos:
     
     ####
     {documentos}
     ####
-    Utilize apenas as informações fornecidas nos documentos para basear suas respostas.
+    - Sua função é responder questionamentos e fornecer informações sobre temas jurídicos relacionados ao Tribunal do Júri.
 
-    Caso algum link de url seja solicitado, informe apenas os existentes nas base de dados.
+    - Você foi idealizado pelo CENTRO DE APOIO OPERACIONAL DO TRIBUNAL DO JÚRI, na Coordenação do Promotor de Justiça, Dr. Sandro Carvalho Lobato de Carvalho e na parte
+    técnica pelo Assessor Técnico Jonh Selmo de Souza do Nascimento.
+
+    - Utilize apenas as informações fornecidas nos documentos para basear suas respostas.
+
+    - Caso seja feito algum questionamento sobre temas que não seja jurídico relacionado ao Tribunal do Júri, se desculpe e peça para reformular o questionamento.
+
+    - Caso algum link de url seja solicitado, informe apenas os existentes nas base de dados.
 
    
     '''
