@@ -24,7 +24,7 @@ with open('style.css') as f:
 
 #################
 
-st.image('images/chatbot2.png', width = 400 px)
+st.image('images/chatbot2.png', width = 400px)
 
 # Remova a seleção manual de tipo de arquivo
 # TIPOS_ARQUIVOS = ['Arquivos .pdf', 'Site', 'Youtube', 'Arquivos .csv', 'Arquivos .txt']
