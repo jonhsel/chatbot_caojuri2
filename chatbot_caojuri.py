@@ -90,6 +90,11 @@ def carrega_modelo(provedor, modelo, api_key, documentos):
 
     - Utilize apenas as informações fornecidas nos documentos para basear suas respostas.
 
+    - Quando forem solicitadas informações sobre o CAOJÚRI, busque as informações apenas dos documentos: 
+    "informações.md" - item 2;
+    " ";
+    "ATO-REG";
+    
     - Caso seja feito algum questionamento sobre temas que não seja jurídico relacionado ao Tribunal do Júri, se desculpe e peça para reformular o questionamento.
 
     - Caso algum link de url seja solicitado, informe apenas os existentes nas base de dados.
