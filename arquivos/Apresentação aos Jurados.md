@@ -1,11 +1,6 @@
 ## O papel do cidadão (jurado) na proteção do direito à vida no Tribunal do Júri
 
 
-
-Centro de Apoio Operacional do Tribunal do Júri
-
-
-
 ## O que é o TRIBUNAL DO JÚRI? 
 
 <!-- image -->
@@ -494,20 +489,3 @@ Votados os quesitos, o juiz (a) presidente proferirá sentença  com  base  no  
 
 O Tribunal do Júri é um exemplo de justiça com participação popular, pois os jurados são escolhidos entre cidadãos comuns, que representam a sociedade e têm a responsabilidade de julgar crimes graves.
 
-<!-- image -->
-
-<!-- image -->
-
-<!-- image -->
-
-## OBRIGADO! 
-
-## CONTATOS
-
-(98) 3219-1980 -  ramal 75
-
-caopjuri@mpma.mp.br
-
-<!-- image -->
-
-<!-- image -->

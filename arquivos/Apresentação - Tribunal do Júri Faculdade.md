@@ -1,20 +1,3 @@
-## CENTRO DE APOIO OPERACIONAL DO TRIBUNAL DO JÚRI - CAOJÚRI
-
-Ministério Público do Estado do Maranhão
-
-Sandro Carvalho Lobato de Carvalho
-
-Promotor de Justiça
-
-<!-- image -->
-
-do Estado do Maranhão
-
-## TRIBUNAL DO JÚRI I TRIBUNAL DO JÚR
-
-Ministério Público do Estado do Maranhão
-
-<!-- image -->
 
 ## O QUE É O TRIBUNAL DO JÚRI?
 
@@ -134,7 +117,6 @@ Judicium  causae
 
 pronúncia e começa com a apresentação da relação de pessoas que o Ministério  Público  e  a  Defesa  desejam  ouvir  em  plenário  do  júri  e  as diligências  que  desejam  ser  cumpridas  e  termina  com  a  sentença proferida pelo juiz presidente do Tribunal do Júri.   ncia - do PLENÁRIO é o local onde ocorre o julgamento pelo Tribunal do Júri. DESAFORAMENTO (Art.427 e Art.428 CPP) É uma medida excepcional consistente na transferência - modificação de competê julgamento de um processo do Tribunal do Júri, de uma Comarca para outra. Só pode ser pedido depois de preclusa a pronúncia.
 
-CAO - Júri
 
 SESSÃO DO TRIBUNAL DO JÚRI é  a  reunião  pública dos componentes do Júri para julgar um caso de crime doloso contra a vida. (2) O procedimento no plenário do Júri é predominantemente oral. Tudo que acontece na sessão do Tribunal do Júri deve ser registrado em ata. Hipóteses: (1) interesse da  ordem  pública; dúvida sobre a imparcialidade do júri; (3)  dúvida sobre a segurança pessoal do acusado; (4) comprovado excesso de serviço, se não realizado em 6 meses.
 
@@ -430,18 +412,4 @@ PRISÃO  DOMICILIAR é  aquela  em  que  o  acusado  fica  em  casa  (ex.:  tem 
 
 <!-- image -->
 
-CONTATOS
 
-(98) 3219-1980 -  ramal 75
-
-caopjuri@mpma.mp.br
-
-<!-- image -->
-
-Ministério Público do Estado do Maranhão
-
-## OBRIGADO! ! OBRIGADO
-
-<!-- image -->
-
-MPMA CAO Júri
