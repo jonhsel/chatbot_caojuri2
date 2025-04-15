@@ -51,7 +51,7 @@ Visa  permitir  o  acesso  dos  membros  que atuam  no  Tribunal  do  Júri  aos
 
 #### Boa Prática "Painéis BI"
 
-Utilização da ferramenta de BI (Business Intelligence) para  monitorar  e  disponibilizar dados  sobre  a  criminalidade  violenta  letal  no Estado para os membros atuantes no Tribunal do Júri e promover a transparência da atuação do Tribunal do Júri e do CAOJÚRI.
+Utilização da ferramenta de BI (Business Intelligence) para  monitorar  e  disponibilizar dados  sobre  a  criminalidade  violenta  letal  no Estado para os membros atuantes no Tribunal do Júri e promover a transparência da atuação do Tribunal do Júri e do CAOJÚRI, como a disponibilização de um painel BI para acompanhamentos de dados estatísticos das sessões do Tribunal do Júri no Estado do Maranhão.
 
 ## O QUE O CAOJÚRI FAZ?
 
@@ -129,7 +129,23 @@ Intranet do CAOJÚRI : [https://intranet.mpma.mp.br/caops/tribunal-do-juri-caos]
 
 
 ## QUEM FAZ O CAOJÚRI?
+### Coordenador:
 
+- Sandro Carvalho Lobato de Carvalho
+Promotor de Justiça
+
+### Membros Integrantes:
+
+- Fábio Henrique Meirelles Mendes
+Promotor de Justiça
+
+- Frank Teles de Araújo
+Promotor de Justiça
+
+### Equipe Técnica
+
+- Jonh Selmo de Souza do Nascimento
+Assessor Técnico III
 
 
 ## ONDE FICA O CAOJÚRI?
