@@ -17,7 +17,6 @@ cryptography==44.0.0
 dataclasses-json==0.6.7
 defusedxml==0.7.1
 distro==1.9.0
-easygui==0.98.3
 emoji==2.14.0
 eval_type_backport==0.2.2
 fake-useragent==1.5.1
