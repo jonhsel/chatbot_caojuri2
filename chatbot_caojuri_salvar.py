@@ -61,7 +61,7 @@ def carrega_arquivos(pasta_arquivos):
 
 def carrega_modelo(documentos):
     if not documentos:
-        st.error("Nenhum documento foi carregado. Verifique a pasta 'arquivos'.")
+        st.error("Nenhum 3 documento foi carregado. Verifique a pasta 'arquivos'.")
         return
 
     system_message = f''' Você é o chatbot virtual do CAOJÚRI.
