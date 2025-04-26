@@ -108,32 +108,32 @@ def carrega_modelo(documentos):
 def salvar_conversa():
     if 'memoria' in st.session_state:
         memoria = st.session_state['memoria']
-
+        
         # Cria o nome do arquivo com data e hora atual
         nome_arquivo = f"conversa_caojuri_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-
-        # Abre o diálogo de seleção de pasta com EasyGUI
-        caminho_pasta = easygui.diropenbox(
-            title="Selecione a pasta para salvar a conversa do CAOJÚRI",
-            default=os.path.expanduser("~")  # Começa na pasta pessoal do usuário
-        )
-
-        if caminho_pasta:
-            try:
-                # Caminho completo para salvar o arquivo
-                caminho_arquivo = os.path.join(caminho_pasta, nome_arquivo)
-
-                # Salva a conversa
-                with open(caminho_arquivo, 'w', encoding='utf-8') as arquivo:
-                    for mensagem in memoria.buffer_as_messages:
-                        arquivo.write(f"{mensagem.type.upper()}: {mensagem.content}\n\n")
-
-                st.success(f"Conversa salva com sucesso em {caminho_arquivo}")
-
-            except Exception as e:
-                st.error(f"Erro ao salvar a conversa: {e}")
-        else:
-            st.warning("Nenhuma pasta selecionada.")
+        
+        # Prepara o conteúdo do arquivo
+        conteudo = ""
+        for mensagem in memoria.buffer_as_messages:
+            conteudo += f"{mensagem.type.upper()}: {mensagem.content}\n\n"
+        
+        # Cria uma coluna para o botão de download
+        col1, col2 = st.columns([1, 2])
+        
+        with col1:
+            download_button = st.download_button(
+                label="📥 Baixar conversa",
+                data=conteudo,
+                file_name=nome_arquivo,
+                mime="text/plain",
+                key="download_conversa"
+            )
+        
+        with col2:
+            st.info("O arquivo será salvo na pasta de downloads do seu navegador. Você pode movê-lo para outra pasta depois.")
+            
+        if download_button:
+            st.success(f"Conversa '{nome_arquivo}' baixada com sucesso!")
     else:
         st.warning("Não há conversa para salvar.")
 
