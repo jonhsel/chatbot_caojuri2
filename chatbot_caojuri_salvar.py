@@ -175,6 +175,16 @@ def sidebar():
         if not os.path.exists(pasta_arquivos):
             # Se não funcionar, tente com o caminho relativo 
             pasta_arquivos = 'arquivos'
+            # Se ambos não funcionarem
+            if not os.path.exists(pasta_arquivos):
+                # Imprima o diretório atual para depuração
+                st.warning(f"Diretório atual: {os.getcwd()}")
+                st.warning(f"Nenhum arquivo encontrado nas pastas 'chatbot_caojuri2/arquivos' ou 'arquivos'.")
+                
+                # Liste os arquivos no diretório atual para ajudar na depuração
+                st.write("Conteúdo do diretório atual:")
+                st.write(os.listdir('.'))
+                return  # Sai da função se não houver arquivos
 
         #pasta_arquivos = './arquivos'  # Define a pasta de arquivos
         if not os.path.exists(pasta_arquivos) or not os.listdir(pasta_arquivos):
