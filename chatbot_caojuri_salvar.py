@@ -35,24 +35,45 @@ MEMORIA = ConversationBufferMemory()
 
   
 def carrega_arquivos(pasta_arquivos):
+    import requests
+    from urllib.parse import quote
     
-    base_url = "https://raw.githubusercontent.com/jonhsel/chatbot_caojuri2/refs/heads/master/arquivos/"
+    documentos = []
+    
+    # URLs dos arquivos no GitHub
+    base_url = "https://raw.githubusercontent.com/jonhsel/chatbot_caojuri2/master/arquivos/"
     arquivos = ["ATO-REG 22-2020.md", "CAOJÚRI - MPMA.md"]
-    documentos = []    
     
-    #for nome_arquivo in os.listdir(pasta_arquivos):
+    st.info(f"Tentando carregar {len(arquivos)} arquivos do GitHub...")
+    
     for nome_arquivo in arquivos:
-        caminho_arquivo = base_url + nome_arquivo
-        if os.path.isfile(caminho_arquivo):
-            try:
-                documento = carrega_md(caminho_arquivo)
+        # Codifica o nome do arquivo para URL
+        nome_arquivo_encoded = quote(nome_arquivo)
+        url = base_url + nome_arquivo_encoded
+        
+        st.info(f"Tentando carregar: {url}")
+        
+        try:
+            # Faz uma requisição HTTP para obter o conteúdo do arquivo
+            response = requests.get(url)
+            
+            # Verifica se a requisição foi bem-sucedida
+            if response.status_code == 200:
+                # Obtém o conteúdo do arquivo
+                conteudo = response.text
+                st.success(f"Arquivo '{nome_arquivo}' carregado com sucesso!")
+                documentos.append(conteudo)
+            else:
+                st.error(f"Erro ao baixar '{nome_arquivo}': Status code {response.status_code}")
                 
-                if documento:
-                    documentos.append(documento)
-
-            except Exception as e:
-                st.error(f"Erro ao carregar arquivo {nome_arquivo}: {e}")
-
+        except Exception as e:
+            st.error(f"Erro ao carregar arquivo {nome_arquivo}: {str(e)}")
+    
+    if not documentos:
+        st.error("Nenhum documento foi carregado com sucesso.")
+        return ""
+    
+    st.success(f"Total de {len(documentos)} documentos carregados com sucesso!")
     return "\n\n".join(documentos)
 
 def carrega_modelo(documentos):
@@ -165,67 +186,19 @@ def pagina_chat():
 def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos'])
     with tabs_assistente[0]:
-        # No Streamlit Cloud, o caminho correto provavelmente é este:
-        pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos'
-        
-        # Verifique se esse caminho existe
-        if not os.path.exists(pasta_arquivos):
-            # Tente outros caminhos possíveis
-            possiveis_caminhos = [
-                os.path.join(os.getcwd(), 'arquivos'),  # Caminho baseado no diretório atual
-                'arquivos',  # Caminho relativo simples
-                './arquivos',  # Caminho relativo explícito
-                '../arquivos',  # Um nível acima
-                '/app/arquivos'  # Outro possível caminho no Streamlit Cloud
-            ]
-            
-            # Tente cada caminho até encontrar um que exista
-            for caminho in possiveis_caminhos:
-                if os.path.exists(caminho):
-                    pasta_arquivos = caminho
-                    st.info(f"Pasta encontrada em: {pasta_arquivos}")
-                    break
-            else:  # Se nenhum caminho existir
-                st.error("Não foi possível encontrar a pasta 'arquivos'")
-                st.write(f"Diretório atual: {os.getcwd()}")
-                st.write("Conteúdo do diretório atual:")
-                st.write(os.listdir('.'))
-                
-                # Verifique o diretório raiz do Streamlit Cloud
-                if os.path.exists('/mount/src'):
-                    st.write("Conteúdo de /mount/src:")
-                    st.write(os.listdir('/mount/src'))
-                return
-        
-        # Verificar se a pasta existe e contém arquivos
-        if not os.path.exists(pasta_arquivos):
-            st.warning(f"A pasta '{pasta_arquivos}' não foi encontrada.")
-            return
-        
-        if not os.listdir(pasta_arquivos):
-            st.warning(f"A pasta '{pasta_arquivos}' está vazia.")
-            return
-        
-        # Listar os arquivos encontrados
-        st.write(f"Arquivos encontrados na pasta '{pasta_arquivos}':")
-        for nome_arquivo in os.listdir(pasta_arquivos):
-            st.write(f"- {nome_arquivo}")
+        st.write("Os arquivos serão carregados diretamente do GitHub.")
         
         # Botão para iniciar o assistente
         if st.button('▶️ Iniciar o Assistente', use_container_width=True):
             try:
-                documentos = carrega_arquivos(pasta_arquivos)
+                documentos = carrega_arquivos(None)  # Não precisa mais de pasta_arquivos
                 
-                # Verificar se a função retornou algum documento
-                if not documentos:
-                    st.error("Nenhum documento foi carregado, apesar dos arquivos serem encontrados.")
-                    return
-                
-                carrega_modelo(documentos)
+                if documentos:
+                    carrega_modelo(documentos)
+                else:
+                    st.error("Não foi possível carregar os documentos.")
             except Exception as e:
-                st.error(f"Erro ao carregar arquivos: {str(e)}")
-                import traceback
-                st.error(traceback.format_exc())
+                st.error(f"Erro ao iniciar o assistente: {str(e)}")
         
         if st.button('️ Limpar o histórico de conversação', use_container_width=True):
             st.session_state['memoria'] = MEMORIA
