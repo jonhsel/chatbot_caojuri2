@@ -124,7 +124,7 @@ def salvar_conversa():
         memoria = st.session_state['memoria']
         
         # Cria o nome do arquivo com data e hora atual
-        nome_arquivo = f"conversa_caojuri_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+        nome_arquivo = f"conversa_caojuri_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
         
         # Prepara o conteúdo do arquivo
         conteudo = ""
