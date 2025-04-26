@@ -174,7 +174,7 @@ def sidebar():
         # Tente primeiro com o caminho completo para o GitHub
         if not os.path.exists(pasta_arquivos):
             # Se não funcionar, tente com o caminho relativo 
-            pasta_arquivos = 'mount/src/chatbot_caojuri2/arquivos'
+            pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
             # Se ambos não funcionarem
             if not os.path.exists(pasta_arquivos):
                 # Imprima o diretório atual para depuração
