@@ -33,28 +33,20 @@ MEMORIA = ConversationBufferMemory()
 #pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
 #pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
 
-
+  
 def carrega_arquivos(pasta_arquivos):
-    documentos = []
-    for nome_arquivo in os.listdir(pasta_arquivos):
-        caminho_arquivo = os.path.join(pasta_arquivos, nome_arquivo)
+    
+    base_url = "https://raw.githubusercontent.com/jonhsel/chatbot_caojuri2/refs/heads/master/arquivos/"
+    arquivos = ["ATO-REG 22-2020.md", "CAOJÚRI - MPMA.md"]
+    documentos = []    
+    
+    #for nome_arquivo in os.listdir(pasta_arquivos):
+    for nome_arquivo in arquivos:
+        caminho_arquivo = base_url + nome_arquivo
         if os.path.isfile(caminho_arquivo):
             try:
-                _, extensao = os.path.splitext(nome_arquivo)
-                extensao = extensao.lower()
-
-                if extensao == '.pdf':
-                    documento = carrega_pdf(caminho_arquivo)
-                elif extensao == '.csv':
-                    documento = carrega_csv(caminho_arquivo)
-                elif extensao == '.txt':
-                    documento = carrega_txt(caminho_arquivo)
-                elif extensao == '.md':
-                    documento = carrega_md(caminho_arquivo)
-                else:
-                    st.warning(f"Tipo de arquivo não suportado: {extensao} - Arquivo: {nome_arquivo}")
-                    continue
-
+                documento = carrega_md(caminho_arquivo)
+                
                 if documento:
                     documentos.append(documento)
 
@@ -173,41 +165,70 @@ def pagina_chat():
 def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos'])
     with tabs_assistente[0]:
-        #pasta_arquivos = os.path.join('arquivos')
-        pasta_arquivos = os.path.join(os.getcwd(), 'arquivos/')
-        #pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
-
-        # Tente primeiro com o caminho completo para o GitHub
+        # No Streamlit Cloud, o caminho correto provavelmente é este:
+        pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos'
+        
+        # Verifique se esse caminho existe
         if not os.path.exists(pasta_arquivos):
-            # Se não funcionar, tente com o caminho relativo 
-            pasta_arquivos = 'mount/src/chatbot_caojuri2/arquivos'
-            # Se ambos não funcionarem
-            if not os.path.exists(pasta_arquivos):
-                # Imprima o diretório atual para depuração
-                st.warning(f"Diretório atual: {os.getcwd()}")
-                st.warning(f"Nenhum arquivo encontrado nas pastas 'chatbot_caojuri2/arquivos' ou 'arquivos'.")
-                
-                # Liste os arquivos no diretório atual para ajudar na depuração
+            # Tente outros caminhos possíveis
+            possiveis_caminhos = [
+                os.path.join(os.getcwd(), 'arquivos'),  # Caminho baseado no diretório atual
+                'arquivos',  # Caminho relativo simples
+                './arquivos',  # Caminho relativo explícito
+                '../arquivos',  # Um nível acima
+                '/app/arquivos'  # Outro possível caminho no Streamlit Cloud
+            ]
+            
+            # Tente cada caminho até encontrar um que exista
+            for caminho in possiveis_caminhos:
+                if os.path.exists(caminho):
+                    pasta_arquivos = caminho
+                    st.info(f"Pasta encontrada em: {pasta_arquivos}")
+                    break
+            else:  # Se nenhum caminho existir
+                st.error("Não foi possível encontrar a pasta 'arquivos'")
+                st.write(f"Diretório atual: {os.getcwd()}")
                 st.write("Conteúdo do diretório atual:")
                 st.write(os.listdir('.'))
-                return  # Sai da função se não houver arquivos
-
-        #pasta_arquivos = './arquivos'  # Define a pasta de arquivos
-        if not os.path.exists(pasta_arquivos) or not os.listdir(pasta_arquivos):
-            st.warning(f"Nenhum 2 arquivo encontrado na pasta '{pasta_arquivos}'.")
-            return  # Sai da função se não houver arquivos na pasta
-
+                
+                # Verifique o diretório raiz do Streamlit Cloud
+                if os.path.exists('/mount/src'):
+                    st.write("Conteúdo de /mount/src:")
+                    st.write(os.listdir('/mount/src'))
+                return
+        
+        # Verificar se a pasta existe e contém arquivos
+        if not os.path.exists(pasta_arquivos):
+            st.warning(f"A pasta '{pasta_arquivos}' não foi encontrada.")
+            return
+        
+        if not os.listdir(pasta_arquivos):
+            st.warning(f"A pasta '{pasta_arquivos}' está vazia.")
+            return
+        
+        # Listar os arquivos encontrados
         st.write(f"Arquivos encontrados na pasta '{pasta_arquivos}':")
         for nome_arquivo in os.listdir(pasta_arquivos):
-            st.write(nome_arquivo)  # Lista os arquivos na sidebar
-
-    if st.button('▶️ Iniciar o Assistente', use_container_width=True):
-        documentos = carrega_arquivos(pasta_arquivos)  # Carrega todos os arquivos
-        carrega_modelo(documentos)
-
-    if st.button('️ Limpar o histórico de conversação', use_container_width=True):
-        st.session_state['memoria'] = MEMORIA
-
+            st.write(f"- {nome_arquivo}")
+        
+        # Botão para iniciar o assistente
+        if st.button('▶️ Iniciar o Assistente', use_container_width=True):
+            try:
+                documentos = carrega_arquivos(pasta_arquivos)
+                
+                # Verificar se a função retornou algum documento
+                if not documentos:
+                    st.error("Nenhum documento foi carregado, apesar dos arquivos serem encontrados.")
+                    return
+                
+                carrega_modelo(documentos)
+            except Exception as e:
+                st.error(f"Erro ao carregar arquivos: {str(e)}")
+                import traceback
+                st.error(traceback.format_exc())
+        
+        if st.button('️ Limpar o histórico de conversação', use_container_width=True):
+            st.session_state['memoria'] = MEMORIA
 def main():
     with st.sidebar:
         sidebar()
