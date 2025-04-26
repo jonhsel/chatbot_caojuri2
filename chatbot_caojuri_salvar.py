@@ -174,7 +174,7 @@ def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos'])
     with tabs_assistente[0]:
         #pasta_arquivos = os.path.join('arquivos')
-        pasta_arquivos = os.path.join(os.getcwd(), 'arquivos', 'ODS.md')
+        pasta_arquivos = os.path.join(os.getcwd(), 'arquivos', '/')
         #pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
 
         # Tente primeiro com o caminho completo para o GitHub
