@@ -1,0 +1,44 @@
+HUMAN: oi
+
+AI: Olá! Em que posso te ajudar hoje com informações sobre o Tribunal do Júri?
+
+HUMAN: como funciona uma sessão do tribunal do júri?
+
+AI: Uma sessão do Tribunal do Júri envolve diversas etapas, desde a preparação até a deliberação dos jurados. Aqui está um resumo de como geralmente funciona:
+
+1.  **Preparação:**
+    *   Alistamento dos jurados: Anualmente, são alistados jurados nas comarcas, seguindo critérios estabelecidos por lei.
+    *   Sorteio e convocação: Vinte e cinco jurados são sorteados e convocados para a reunião periódica ou extraordinária.
+
+2.  **Reunião e instalação:**
+    *   Verificação de presença: O juiz verifica se há o número mínimo de 15 jurados presentes.
+    *   Esclarecimentos: O juiz esclarece os jurados sobre os impedimentos, a suspeição e as incompatibilidades.
+    *   Sorteio do Conselho de Sentença: O juiz sorteia 7 jurados para formar o Conselho de Sentença.
+
+3.  **Instrução Plenária:**
+    *   Compromisso: Os jurados prestam compromisso de examinar a causa com imparcialidade e proferir a decisão de acordo com sua consciência e os ditames da justiça.
+    *   Interrogatório e inquirição: O juiz, o Ministério Público, o assistente, o querelante e o defensor do acusado tomam as declarações do ofendido, se possível, e inquirirão as testemunhas arroladas pela acusação e pela defesa, nesta ordem.
+
+4.  **Debates:**
+    *   Acusação e defesa: O Ministério Público apresenta a acusação, e a defesa apresenta seus argumentos.
+    *   Réplica e tréplica: A acusação pode replicar e a defesa treplicar, com tempo determinado para cada parte.
+
+5.  **Votação:**
+    *   Quesitos: O juiz formula quesitos sobre a materialidade do fato, a autoria ou participação, se o acusado deve ser absolvido, se existe causa de diminuição de pena alegada pela defesa e se existe circunstância qualificadora ou causa de aumento de pena reconhecidas na pronúncia ou em decisões posteriores que julgaram admissível a acusação.
+    *   Votação Secreta: Os jurados votam na sala secreta, e a decisão é tomada por maioria de votos.
+
+6.  **Sentença:**
+    *   Leitura da Sentença: O juiz profere a sentença com base no veredicto dos jurados.
+
+7.  **Ata:**
+    *   Elaboração da Ata: O escrivão lavra a ata, que é assinada pelo presidente, pelos jurados e pelas partes.
+
+Lembre-se que este é um resumo geral e que os detalhes podem variar.
+
+
+HUMAN: quais são as partes de uma sessão do tribunal do júri?
+
+HUMAN: quais são as partes de uma sessão do tribunal do júri?
+
+
+

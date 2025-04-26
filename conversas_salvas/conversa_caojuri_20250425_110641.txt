@@ -1,0 +1,95 @@
+HUMAN: qual o setor do ministério publico do estado do maranhão que auxilia sobre o tribunal do júri?
+
+AI: O setor do Ministério Público do Estado do Maranhão que auxilia sobre o Tribunal do Júri é o CAOJÚRI - Centro de Apoio Operacional do Tribunal do Júri.
+
+
+HUMAN: Me traga informações detalhadas sobre o CAOJÚRI.
+
+AI: Com prazer! As informações detalhadas sobre o CAOJÚRI que posso te fornecer são as seguintes:
+
+**O que é o CAOJÚRI?**
+
+*   É um órgão auxiliar do Ministério Público do Estado do Maranhão (MPMA).
+*   Tem como objetivo auxiliar os membros da Instituição que atuam no Tribunal do Júri.
+
+**O que o CAOJÚRI faz?**
+
+*   Presta suporte técnico e operacional aos membros do Ministério Público.
+*   Oferece informações, capacitações, orientações e subsídios para o desenvolvimento de suas atividades no Tribunal do Júri.
+*   Atua na articulação com outros órgãos e entidades do sistema de justiça, como o Poder Judiciário, as Polícias Civil e Militar, Perícia Criminal e o Sistema Penitenciário, buscando a integração e a efetividade do trabalho conjunto em prol da justiça criminal.
+
+**Serviços oferecidos pelo CAOJÚRI:**
+
+*   Sala de Situação
+*   Esclarecimento de dúvidas sobre processos e/ou inquéritos
+*   Consultas
+*   Consultas jurídicas sobre questões relacionadas ao Tribunal do Júri (por email, whatsapp, presencialmente)
+*   Banco de Peças
+*   Modelos de peças, informativos, materiais de apoio etc.
+*   Articulações Interinstitucionais
+*   Interlocução junto aos órgãos polícias, pericias, judiciais, sistema prisional, de Estado etc.
+*   Diligência Institucional
+*   Apoio aos membros junto a órgãos internos e externos
+*   Pareceres e Notas Técnicas
+*   Cursos e Capacitações
+*   Em parceria com a PGJ/ESMP
+*   Galileu
+*   Sistema de acesso a laudos periciais
+*   Tira dúvidas de laudos
+*   Esclarecimentos de laudos médicos de processos do Tribunal do Júri, em parceria com ASSTEC.
+*   Atendimento ao Público
+*   Informações sobre procedimentos, processos e Promotorias etc.
+*   Monitoramento de indicadores
+*   Indicadores de criminalidade letal, homicídios dolosos, feminicídio
+*   Disponibiliza Pautas de julgamento de sessões do tribunal do júri fornecidas pelas promotorias de justiça.
+
+**Quem faz o CAOJÚRI?**
+
+*   **Coordenador:** Sandro Carvalho Lobato de Carvalho (Promotor de Justiça)
+*   **Membros Integrantes:**
+    *   Fábio Henrique Meirelles Mendes (Promotor de Justiça)
+    *   Frank Teles de Araújo (Promotor de Justiça)
+*   **Equipe Técnica:**
+    *   Jonh Selmo de Souza do Nascimento (Assessor Técnico III)
+
+**Onde fica o CAOJÚRI?**
+
+*   **Endereço:** Rua Oswaldo Cruz, nº 1396, no 1º andar do prédio anexo do Centro Cultural e Administrativo do MPMA, Centro, São Luís - MA.
+
+**Como entrar em contato com o CAOJÚRI?**
+
+*   **Telefone:** (98) 3219-1980 - ramal 75
+*   **E-mail:** caopjuri@mpma.mp.br
+
+Espero que estas informações detalhadas sejam úteis! Se precisar de mais alguma informação, é só perguntar.
+
+HUMAN: qual o site do CAOJÚRI?
+
+AI: O site do CAOJÚRI não foi especificado nos documentos que tenho acesso. No entanto, o portal externo do Ministério Público do Estado do Maranhão (MPMA) - Área de Atuação: [https://www.mpma.mp.br/areas-de-atuacao/tribunal-do-juri] - é um bom ponto de partida para encontrar informações sobre o CAOJÚRI.
+
+
+HUMAN: além do CAOJÚRI, existem outros CAOs? Caso a resposta seja positiva, me informe quais.
+
+AI: Sim, além do CAOJÚRI, existem outros Centros de Apoio Operacionais (CAOs) no Ministério Público do Estado do Maranhão (MPMA). São eles:
+
+*   Centro de Apoio Operacional Criminal - CAOCRIM
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/criminal/?post=1468#result]
+*   Centro de Apoio Operacional da Infância e Juventude - CAO-IJ
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/infancia-e-juventude/?post=1158#result]
+*   Centro de Apoio Operacional de Enfrentamento à Violência de Gênero - CAOMULHER
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/defesa-da-mulher/?post=27246#result]
+*   Centro de Apoio Operacional de Defesa da Saúde - CAOSAÚDE
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/saude/?post=1418#result]
+*   Centro de Apoio Operacional dos Direitos Humanos e Cidadania – CAO/DHC
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/direitos-humanos/?post=1385#result]
+*   Centro de Apoio de Defesa dos Direitos das Pessoas Idosas e das Pessoas com Deficiência - CAOP/PIPD
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/protecao-ao-idoso-e-pessoa-com-deficiencia/?post=1439#result]
+*   Centro de Apoio Operacional de Defesa do Patrimônio Público e da Probidade Administrativa - CAOPROAD
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/probidade-administrativa/?post=1242#result]
+*   Centro de Apoio Operacional de Defesa do Direito à Educação – CAOEDUCAÇÃO
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/educacao/?post=955#result]
+*   Centro de Apoio Operacional de Meio Ambiente, Urbanismo e Patrimônio Cultural - CAOUMA
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/meio-ambiente/?post=313#result]
+*   Centro de Apoio Operacional do Consumidor - CAO-CONSUMIDOR
+    *   Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/consumidor/?post=1492#result]
+
