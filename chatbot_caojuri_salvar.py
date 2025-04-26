@@ -3,9 +3,6 @@ import tempfile
 import os
 from datetime import datetime
 
-import tkinter as tk
-from tkinter import filedialog
-
 from langchain.memory import ConversationBufferMemory
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
