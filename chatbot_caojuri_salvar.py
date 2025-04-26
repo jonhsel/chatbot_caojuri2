@@ -30,7 +30,8 @@ GOOGLE_API_KEY = st.secrets["google"]["api_key"]
 
 MEMORIA = ConversationBufferMemory()
 
-pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
+#pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
+pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
 
 
 def carrega_arquivos(pasta_arquivos):
