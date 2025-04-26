@@ -169,12 +169,13 @@ def pagina_chat():
 def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos'])
     with tabs_assistente[0]:
-        pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
-        
+        #pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
+        pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
+
         # Tente primeiro com o caminho completo para o GitHub
         if not os.path.exists(pasta_arquivos):
             # Se não funcionar, tente com o caminho relativo 
-            pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
+            pasta_arquivos = '/1mount/src/chatbot_caojuri2/arquivos/'
             # Se ambos não funcionarem
             if not os.path.exists(pasta_arquivos):
                 # Imprima o diretório atual para depuração
