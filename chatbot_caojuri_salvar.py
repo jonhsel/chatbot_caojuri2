@@ -42,7 +42,24 @@ def carrega_arquivos(pasta_arquivos):
     
     # URLs dos arquivos no GitHub
     base_url = "https://raw.githubusercontent.com/jonhsel/chatbot_caojuri2/master/arquivos/"
-    arquivos = ["ATO-REG 22-2020.md", "CAOJÚRI - MPMA.md"]
+    arquivos = ["Apresentação aos Jurados.md",
+                "Apresentação - Tribunal do Júri Faculdade.md",
+                "ATO-REG 22-2020.md", 
+                "ATOREG - 262022 Planejamento atribuição SEPLAG.md",
+                "CAOJÚRI - MPMA.md",
+                "Código 1ª Fase.md",
+                "Código 2ª Fase.md",
+                "Comentários 1ª Fase.md",
+                "Comentários 2ª Fase.md",
+                "Contatos institucionais - Procuradores e Promotores.md"
+                "Decálogo do Promotor do Júri.md",
+                "Informações.md",
+                "Júri -  recorte.md",
+                "Manual de manual de resolutividade CNMP.md",
+                "ODS.md",
+                "Projeto Jurado Voluntário.md",
+                "Promotorias do Júri.md"           
+                ]
     
     st.info(f"Tentando carregar {len(arquivos)} arquivos do GitHub...")
     
