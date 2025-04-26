@@ -51,7 +51,7 @@ def carrega_arquivos(pasta_arquivos):
                 "Código 2ª Fase.md",
                 "Comentários 1ª Fase.md",
                 "Comentários 2ª Fase.md",
-                "Contatos institucionais - Procuradores e Promotores.md"
+                "Contatos institucionais - Procuradores e Promotores.md",
                 "Decálogo do Promotor do Júri.md",
                 "Informações.md",
                 "Júri -  recorte.md",
