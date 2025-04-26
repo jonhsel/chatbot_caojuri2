@@ -175,7 +175,7 @@ def sidebar():
         # Tente primeiro com o caminho completo para o GitHub
         if not os.path.exists(pasta_arquivos):
             # Se não funcionar, tente com o caminho relativo 
-            pasta_arquivos = '/1mount/src/chatbot_caojuri2/arquivos/'
+            pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
             # Se ambos não funcionarem
             if not os.path.exists(pasta_arquivos):
                 # Imprima o diretório atual para depuração
@@ -189,7 +189,7 @@ def sidebar():
 
         #pasta_arquivos = './arquivos'  # Define a pasta de arquivos
         if not os.path.exists(pasta_arquivos) or not os.listdir(pasta_arquivos):
-            st.warning(f"Nenhum arquivo encontrado na pasta '{pasta_arquivos}'.")
+            st.warning(f"Nenhum 2 arquivo encontrado na pasta '{pasta_arquivos}'.")
             return  # Sai da função se não houver arquivos na pasta
 
         st.write(f"Arquivos encontrados na pasta '{pasta_arquivos}':")
