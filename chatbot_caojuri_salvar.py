@@ -169,7 +169,14 @@ def pagina_chat():
 def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos'])
     with tabs_assistente[0]:
-        pasta_arquivos = './arquivos'  # Define a pasta de arquivos
+        pasta_arquivos = os.path.join('chatbot_caojuri2', 'arquivos')
+        
+        # Tente primeiro com o caminho completo para o GitHub
+        if not os.path.exists(pasta_arquivos):
+            # Se não funcionar, tente com o caminho relativo 
+            pasta_arquivos = 'arquivos'
+            
+        #pasta_arquivos = './arquivos'  # Define a pasta de arquivos
         if not os.path.exists(pasta_arquivos) or not os.listdir(pasta_arquivos):
             st.warning(f"Nenhum arquivo encontrado na pasta '{pasta_arquivos}'.")
             return  # Sai da função se não houver arquivos na pasta
