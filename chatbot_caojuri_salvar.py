@@ -3,8 +3,6 @@ import tempfile
 import os
 from datetime import datetime
 
-import easygui
-
 import tkinter as tk
 from tkinter import filedialog
 
