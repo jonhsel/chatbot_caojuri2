@@ -29,7 +29,7 @@ hide_streamlit_style = """
                 display: none; /* Garante que não ocupe espaço */
             }
             /* Opcional: Oculta o rodapé 'Made with Streamlit' */
-            div[data-testid="appCreatorAvatar"] {
+            ._profileContainer_gzau3_63 {
                 visibility: hidden;
                 display: none;
             }
