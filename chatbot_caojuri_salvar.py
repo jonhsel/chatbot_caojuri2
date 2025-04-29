@@ -232,7 +232,7 @@ def pagina_chat():
 def sidebar():
     tabs_assistente = st.tabs(['Seleção de Arquivos'])
     with tabs_assistente[0]:
-        st.write("Os arquivos serão carregados diretamente do GitHub.")
+        #st.write("Os arquivos serão carregados diretamente do GitHub.")
         
         # Botão para iniciar o assistente
         if st.button('▶️ Iniciar o CaojuriChat', use_container_width=True):
