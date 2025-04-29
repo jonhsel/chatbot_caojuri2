@@ -201,7 +201,7 @@ def pagina_chat():
             st.toast('✅ CAOJURICHAT carregado com sucesso!', icon='✅')
             # Pode adicionar um pequeno delay artificial se quiser garantir a ordem dos toasts
             # time.sleep(0.1) # Geralmente não necessário
-            st.info('Devido ao alto volume de dados, nosso chat processa até 2 perguntas por minuto. Se ocorrer erro/demora, aguarde 1 min e tente novamente.', icon='ℹ️')
+            st.info('Devido ao alto volume de dados, nosso chat processa até 2 perguntas por minuto. Se ocorrer erro/demora, aguarde 1 min e tente novamente. Agradecemos a compreensão!', icon='ℹ️')
 
             # Marca que as mensagens foram mostradas para não repetir nesta sessão
             st.session_state.chat_init_messages_shown = True
