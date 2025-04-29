@@ -24,7 +24,7 @@ with open('style.css') as f:
 hide_streamlit_style = """
             <style>
             /* Oculta o botão do menu principal */
-            button[data-testid="mainMenuButton"] {
+            button[data-testid="stBaseButton-header"] {
                 visibility: hidden;
                 display: none; /* Garante que não ocupe espaço */
             }
