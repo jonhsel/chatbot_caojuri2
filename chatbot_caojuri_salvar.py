@@ -176,6 +176,10 @@ def pagina_chat():
     if chain is None:
         st.error('⚠️ Carregue o arquivo antes de inicializar o assistente!')
         st.stop()
+    else:
+        st.success('✅ CaojuriChat carregado com sucesso!')
+        st.info('Devido ao alto volume de dados, nosso chatbot processa até 2 perguntas por minuto. Se ocorrer algum erro ou a resposta demorar, por favor, aguarde 1 minuto e tente novamente. Agradecemos a compreensão!')
+
 
     # Botão para salvar conversa
     if st.button('💾 Salvar Conversa'):
