@@ -169,7 +169,7 @@ def salvar_conversa():
         st.warning("Não há conversa para salvar.")
 
 def pagina_chat():
-    st.header('⚖️ Chat Virtual do CAOJÚRI')
+    st.header('🤖 CAOJURICHAT - Chat Virtual do CAOJÚRI')
     st.write('Minha função é responder questionamentos relacionados ao Tribunal do Júri!')
 
     chain = st.session_state.get('chain')
@@ -177,8 +177,8 @@ def pagina_chat():
         st.error('⚠️ Iniciar o chatbot na aba lateral!')
         st.stop()
     else:
-        st.success('✅ CaojuriChat carregado com sucesso!')
-        st.info('Devido ao alto volume de dados, nosso chatbot processa até 2 perguntas por minuto. Se ocorrer algum erro ou a resposta demorar, por favor, aguarde 1 minuto e tente novamente. Agradecemos a compreensão!')
+        st.success('✅ CAOJURICHAT carregado com sucesso!')
+        st.info('Devido ao alto volume de dados, nosso chat virtual processa até 2 perguntas por minuto. Se ocorrer algum erro ou a resposta demorar, por favor, aguarde 1 minuto e tente novamente. Agradecemos a compreensão!')
 
 
     # Botão para salvar conversa
@@ -210,7 +210,7 @@ def sidebar():
         st.write("Os arquivos serão carregados diretamente do GitHub.")
         
         # Botão para iniciar o assistente
-        if st.button('▶️ Iniciar o CAOJÚRIChat', use_container_width=True):
+        if st.button('▶️ Iniciar o CaojuriChat', use_container_width=True):
             try:
                 documentos = carrega_arquivos(None)  # Não precisa mais de pasta_arquivos
                 
@@ -221,7 +221,7 @@ def sidebar():
             except Exception as e:
                 st.error(f"Erro ao iniciar o assistente: {str(e)}")
         
-        if st.button('️ Limpar o histórico de conversação', use_container_width=True):
+        if st.button('️🧹Limpar o histórico de conversação', use_container_width=True):
             st.session_state['memoria'] = MEMORIA
 def main():
     with st.sidebar:
