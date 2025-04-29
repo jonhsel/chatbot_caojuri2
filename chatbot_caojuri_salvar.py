@@ -179,7 +179,7 @@ def pagina_chat():
     else:
         st.success('✅ CAOJURICHAT carregado com sucesso!')
         st.info('Devido ao alto volume de dados, nosso chat virtual processa até 2 perguntas por minuto. Se ocorrer algum erro ou a resposta demorar, por favor, aguarde 1 minuto e tente novamente. Agradecemos a compreensão!')
-
+        st.stop()
 
     # Botão para salvar conversa
     if st.button('💾 Salvar Conversa'):
