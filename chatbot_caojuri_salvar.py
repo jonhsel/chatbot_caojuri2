@@ -198,7 +198,7 @@ def pagina_chat():
         # Verifica se as mensagens de inicialização já foram mostradas nesta sessão
         if not st.session_state.get('chat_init_messages_shown', False):
             # Usa st.toast para mensagens temporárias (desaparecem após 5s por padrão)
-            st.toast('✅ CAOJURICHAT carregado com sucesso!', icon='✅')
+            st.toast('✅ CAOJURICHAT carregado com sucesso!', icon='✅', timeout=8000)
             # Pode adicionar um pequeno delay artificial se quiser garantir a ordem dos toasts
             # time.sleep(0.1) # Geralmente não necessário
             st.toast('Devido ao alto volume de dados, nosso chat processa até 2 perguntas por minuto. Se ocorrer erro/demora, aguarde 1 min e tente novamente.', icon='ℹ️', timeout=8000)
