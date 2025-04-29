@@ -28,31 +28,13 @@ hide_streamlit_style = """
                 visibility: hidden;
                 display: none; /* Garante que não ocupe espaço */
             }
-            /* Opcional: Oculta o rodapé 'Made with Streamlit' */
-            ._profilePreview_gzau3_63 {
-                display: none;
-                visibility: hidden;   
-            }
+            
             /* Opcional: Oculta a barra de decoração superior (onde o menu fica) */
             /* Descomente a linha abaixo se quiser ocultar toda a barra cinza superior */
             /* div[data-testid="stDecoration"] { visibility: hidden; display: none; } */
             </style>
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
-
-hide_streamlit_style2 = """
-            <style>
-            /* Opcional: Oculta o rodapé 'Made with Streamlit' */
-            ._profilePreview_gzau3_63 {
-                display: none !important;
-                visibility: hidden !important;
-            }
-            /* Opcional: Oculta a barra de decoração superior (onde o menu fica) */
-            /* Descomente a linha abaixo se quiser ocultar toda a barra cinza superior */
-            /* div[data-testid="stDecoration"] { visibility: hidden; display: none; } */
-            </style>
-            """
-st.markdown(hide_streamlit_style2, unsafe_allow_html=True)
 
 st.image('images/chatbot4.png')
 
