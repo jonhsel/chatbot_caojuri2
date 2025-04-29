@@ -19,7 +19,9 @@ except LookupError:
 
 # CSS
 with open('style.css') as f:
-   hide_streamlit_style = """
+   st.markdown(f'<style>{f.read()}</style', unsafe_allow_html=True)
+   
+hide_streamlit_style = """
             <style>
             /* Oculta o botão do menu principal */
             button[data-testid="mainMenuButton"] {
@@ -36,7 +38,7 @@ with open('style.css') as f:
             /* div[data-testid="stDecoration"] { visibility: hidden; display: none; } */
             </style>
             """
-   st.markdown(hide_streamlit_style, f'<style>{f.read()}</style', unsafe_allow_html=True)
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.image('images/chatbot4.png')
 
