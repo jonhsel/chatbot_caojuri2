@@ -19,7 +19,24 @@ except LookupError:
 
 # CSS
 with open('style.css') as f:
-   st.markdown(f'<style>{f.read()}</style', unsafe_allow_html=True)
+   hide_streamlit_style = """
+            <style>
+            /* Oculta o botão do menu principal */
+            button[data-testid="mainMenuButton"] {
+                visibility: hidden;
+                display: none; /* Garante que não ocupe espaço */
+            }
+            /* Opcional: Oculta o rodapé 'Made with Streamlit' */
+            footer {
+                visibility: hidden;
+                display: none;
+            }
+            /* Opcional: Oculta a barra de decoração superior (onde o menu fica) */
+            /* Descomente a linha abaixo se quiser ocultar toda a barra cinza superior */
+            /* div[data-testid="stDecoration"] { visibility: hidden; display: none; } */
+            </style>
+            """
+   st.markdown(hide_streamlit_style, f'<style>{f.read()}</style', unsafe_allow_html=True)
 
 st.image('images/chatbot4.png')
 
