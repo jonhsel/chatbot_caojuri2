@@ -29,7 +29,7 @@ hide_streamlit_style = """
                 display: none; /* Garante que não ocupe espaço */
             }
             /* Opcional: Oculta o rodapé 'Made with Streamlit' */
-            ._profileContainer_gzau3_53 {
+            ._profilePreview_gzau3_63 {
                 visibility: hidden;
                 display: none;
             }
