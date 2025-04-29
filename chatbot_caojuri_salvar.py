@@ -189,12 +189,22 @@ def pagina_chat():
 
     chain = st.session_state.get('chain')
     if chain is None:
+        # Mensagem de erro persiste até que 'chain' seja inicializado
         st.error('⚠️ Iniciar o chatbot na aba lateral!')
-        st.stop()
+        # Reseta o flag para que as mensagens de sucesso/info apareçam na próxima inicialização
+        st.session_state.chat_init_messages_shown = False
+        st.stop() # Impede a execução do resto da página se o chat não está pronto
     else:
-        st.success('✅ CAOJURICHAT carregado com sucesso!')
-        st.info('Devido ao alto volume de dados, nosso chat virtual processa até 2 perguntas por minuto. Se ocorrer algum erro ou a resposta demorar, por favor, aguarde 1 minuto e tente novamente. Agradecemos a compreensão!')
+        # Verifica se as mensagens de inicialização já foram mostradas nesta sessão
+        if not st.session_state.get('chat_init_messages_shown', False):
+            # Usa st.toast para mensagens temporárias (desaparecem após 5s por padrão)
+            st.toast('✅ CAOJURICHAT carregado com sucesso!', icon='✅')
+            # Pode adicionar um pequeno delay artificial se quiser garantir a ordem dos toasts
+            # time.sleep(0.1) # Geralmente não necessário
+            st.toast('Devido ao alto volume de dados, nosso chat processa até 2 perguntas por minuto. Se ocorrer erro/demora, aguarde 1 min e tente novamente.', icon='ℹ️')
 
+            # Marca que as mensagens foram mostradas para não repetir nesta sessão
+            st.session_state.chat_init_messages_shown = True
 
     # Botão para salvar conversa
     if st.button('💾 Salvar Conversa'):
