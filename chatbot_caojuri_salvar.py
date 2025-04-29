@@ -174,7 +174,7 @@ def pagina_chat():
 
     chain = st.session_state.get('chain')
     if chain is None:
-        st.error('⚠️ Carregue o arquivo antes de inicializar o assistente!')
+        st.error('⚠️ Iniciar o chatbot na aba lateral!')
         st.stop()
     else:
         st.success('✅ CaojuriChat carregado com sucesso!')
@@ -210,7 +210,7 @@ def sidebar():
         st.write("Os arquivos serão carregados diretamente do GitHub.")
         
         # Botão para iniciar o assistente
-        if st.button('▶️ Iniciar o Assistente', use_container_width=True):
+        if st.button('▶️ Iniciar o CAOJÚRIChat', use_container_width=True):
             try:
                 documentos = carrega_arquivos(None)  # Não precisa mais de pasta_arquivos
                 
