@@ -30,8 +30,8 @@ hide_streamlit_style = """
             }
             /* Opcional: Oculta o rodapé 'Made with Streamlit' */
             ._profilePreview_gzau3_63 {
-                visibility: hidden;
                 display: none;
+                visibility: hidden;   
             }
             /* Opcional: Oculta a barra de decoração superior (onde o menu fica) */
             /* Descomente a linha abaixo se quiser ocultar toda a barra cinza superior */
