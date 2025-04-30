@@ -106,26 +106,29 @@ Mais informações: [https://www.mpma.mp.br/areas-de-atuacao/consumidor/?post=14
 
 
 # 3 - Canais de atendimento
-## Ouvidoria
+## 3.1 - Ouvidoria
 [https://www.mpma.mp.br/ouvidoria/]
 ### Disque 127
+A sua denúncia pode ser efetuada a partir do telefone 127
 ### Pelo Whatsapp
 [https://api.whatsapp.com/send?phone=5598991371298&text=Quero%20registrar%20uma%20manifesta%C3%A7%C3%A3o]
 ### Cadastro de Manifestação
 [https://ouvidoria.mpma.mp.br/sistema/manifestacao/cadastrar]
 
 
-## Contatos telefônicos e e-mail dos membros
+## 3.2 - Contatos telefônicos e e-mail dos membros
 Estou aqui para ajudar, caso necessite o contato institucional de um membro do MPMA
 
 
 # 4 -  Informações sobre processos 
 ## Busca processual no MPMA
 Com o número do processo, OU CPF ou nome da parte:
-[https://www.mpma.mp.br/portal-da-transparencia/atividade-fim/consulta-processos-simpweb/]
+Acesse a página do MPMA [https://mpma.mp.br], menu "Serviços" e procure pelo ícone "Consultas a Processos (SIMPWeb) e digitar os dados que possui.
+
 
 ## Busca processual no TJMA
-
+Com o número do processo, OU CPF ou nome da parte:
+Acesse a página do TJMA [http://tjma.jus.br], rolar a página até chegar na aba "Consulta Processual" (em fundo verde) e digitar os dados que possui.
 
 #4 - Antecedentes
 Copiar as inFORmações do CAOCRIM
