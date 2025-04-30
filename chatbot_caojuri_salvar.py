@@ -235,7 +235,7 @@ def sidebar():
         #st.write("Os arquivos serão carregados diretamente do GitHub.")
         
         # Botão para iniciar o assistente
-        if st.button('▶️ Iniciar o CaojuriChat', use_container_width=True):
+        if st.button('▶️ Iniciar o Parquet', use_container_width=True):
             try:
                 documentos = carrega_arquivos(None)  # Não precisa mais de pasta_arquivos
                 
