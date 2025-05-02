@@ -228,24 +228,24 @@ def pagina_chat():
         st.session_state['memoria'] = memoria
 
 def sidebar():
-    tabs_assistente = st.tabs(['Seleção de Arquivos'])
-    with tabs_assistente[0]:
+    #tabs_assistente = st.tabs(['Seleção de Arquivos'])
+    #with tabs_assistente[0]:
         #st.write("Os arquivos serão carregados diretamente do GitHub.")
         
-        # Botão para iniciar o assistente
-        if st.button('▶️ Iniciar o Parquet', use_container_width=True):
-            try:
-                documentos = carrega_arquivos(None)  # Não precisa mais de pasta_arquivos
-                
-                if documentos:
-                    carrega_modelo(documentos)
-                else:
-                    st.error("Não foi possível carregar os documentos.")
-            except Exception as e:
-                st.error(f"Erro ao iniciar o assistente: {str(e)}")
-        
-        if st.button('️🧹Limpar o histórico de conversação', use_container_width=True):
-            st.session_state['memoria'] = MEMORIA
+    # Botão para iniciar o assistente
+    if st.button('▶️ Iniciar o Parquet', use_container_width=True):
+        try:
+            documentos = carrega_arquivos(None)  # Não precisa mais de pasta_arquivos
+            
+            if documentos:
+                carrega_modelo(documentos)
+            else:
+                st.error("Não foi possível carregar os documentos.")
+        except Exception as e:
+            st.error(f"Erro ao iniciar o assistente: {str(e)}")
+    
+    if st.button('️🧹Limpar o histórico de conversação', use_container_width=True):
+        st.session_state['memoria'] = MEMORIA
 def main():
     with st.sidebar:
         sidebar()
