@@ -21,35 +21,46 @@ O  CAOJÚRI  estabeleceu  um PROGRAMA com  o  propósito  de reunir seus projeto
 
 ## PROGRAMA DO CAOJÚRI
 
-### Projetos
+### Em andamento
+#### Projetos
 
-#### Projeto "Colóquios Interinstitucionais: Ministério Público e Polícias"
+##### Projeto "Colóquios Interinstitucionais: Ministério Público e Polícias"
 
 Parceria  com  a  ESMP,  Secretaria  de  Estado  de Segurança Pública, Delegacia Geral de Polícia e Comando Geral da PMMA, visando a análise de decisões judiciais que impactam a atuação das polícias e do Ministério Público, visando a troca de  experiências  para  uma  melhor  atuação  em benefício da sociedade.
 
-#### Projeto "Priorização das Investigações dos Homicídios"
+
+
+#### Iniciativa
+
+
+
+
+##### Iniciativa "Acesso Direto aos Sistemas de Segurança Pública"
+
+Visa  permitir  o  acesso  dos  membros  que atuam  no  Tribunal  do  Júri  aos  sistemas informatizados  utilizados  pelos  órgãos  de Segurança Pública do Estado.
+
+#### Boa Prática
+
+##### Boa Prática "Painéis BI"
+
+Criação de painéis BI para disponibilização de dados sobre o CAOJÚRI, MPMA e crimes violentos contra a vida!
+
+### Finalizados
+
+Os projetos e iniciativas finalizados foram incoporados ao fluxo interno das atividades do CAOJÚRI. 
+
+##### Projeto "Priorização das Investigações dos Homicídios"
 
 Parceria com a Secretaria de Estado de Segurança Pública para fortalecer a perícia Oficial de Natureza Criminal e priorizar e concluir as investigações de crimes dolosos contra a vida em tramitação há mais de 04 anos.
 
-### Iniciativa
-
-#### Iniciativa "MPMA em Defesa da Vida"
+##### Iniciativa "MPMA em Defesa da Vida"
 
 Publicações nas redes sociais do MPMA sobre  resultados  de  Sessões  do  Tribunal  do Júri e da atuação do MP.
 
 
-#### Iniciativa "Conhecendo os Jurados"
+##### Iniciativa "Conhecendo os Jurados"
 
 Verificar  idoneidade  dos  jurados  sorteados para a Sessão do Tribunal do Júri.
-
-
-#### Iniciativa "Acesso Direto aos Sistemas de Segurança Pública"
-
-Visa  permitir  o  acesso  dos  membros  que atuam  no  Tribunal  do  Júri  aos  sistemas informatizados  utilizados  pelos  órgãos  de Segurança Pública do Estado.
-
-### Boa Prática
-
-#### Boa Prática "Painéis BI"
 
 Utilização da ferramenta de BI (Business Intelligence) para  monitorar  e  disponibilizar dados  sobre  a  criminalidade  violenta  letal  no Estado para os membros atuantes no Tribunal do Júri e promover a transparência da atuação do Tribunal do Júri e do CAOJÚRI, como a disponibilização de um painel BI para acompanhamentos de dados estatísticos das sessões do Tribunal do Júri no Estado do Maranhão.
 
