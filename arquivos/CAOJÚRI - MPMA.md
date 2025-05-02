@@ -21,6 +21,9 @@ O  CAOJÚRI  estabeleceu  um PROGRAMA com  o  propósito  de reunir seus projeto
 
 ## PROGRAMA DO CAOJÚRI
 
+O Programa pode ser acessado, no ambiente interno do CAOJÚRI, partir do link: [https://intranet.mpma.mp.br/caops/tribunal-do-juri-caos/?post=10340#result].
+Caso necessite de mais informações, entre contato com o CAJÚRI a partir dos nossos canais de comunicação.
+
 ### Em andamento
 #### Projetos
 
@@ -32,12 +35,24 @@ Parceria  com  a  ESMP,  Secretaria  de  Estado  de Segurança Pública, Delegac
 
 #### Iniciativa
 
+##### Iniciativa Heimdall
+Conjunto de ações, promovidas pelo CAOJÚRI, na elaboração de modelos que visam promover a fiscalização da tramitação dos inquéritos policiais e processos criminais
 
+##### Iniciativa Pegasus - Novos desafios: Agilidade com Eficiência
+Conjunto de eventos promovidos pelo CAOJÚRI e CAOCRIM, com intuito de apresentar os novos contornos da investigação criminal impostos pelas recentes decisões do Supremo Tribunal Federal.
 
+##### Cidadania em Foco: Valorizando os jurados
+Consiste na elaboração de modelos de propostas de projetos de lei municipal para concessão de benefícios aos jurados que atuem no Tribunal do Júri.
+
+##### Júris Maranhenses Interessantes: Compartilhando Experiências
+A iniciativa consiste no compartilhamebto de experiências e boas práticas dos membros do MPMA em processos e Sessões do Tribunal do Júri, que de alguma maneira, se destacaram, devido a complexidade, as controvérsias jurídicas e aspectos inovadores.
 
 ##### Iniciativa "Acesso Direto aos Sistemas de Segurança Pública"
 
 Visa  permitir  o  acesso  dos  membros  que atuam  no  Tribunal  do  Júri  aos  sistemas informatizados  utilizados  pelos  órgãos  de Segurança Pública do Estado.
+
+##### CAOJÚRI CONECTA 
+Encontros virtuais com as promotorias de justiça, para membros, servidores e colaboradores para aparesentação dos projetos e serviços do CAOJÚRI.
 
 #### Boa Prática
 
@@ -52,6 +67,10 @@ Os projetos e iniciativas finalizados foram incoporados ao fluxo interno das ati
 ##### Projeto "Priorização das Investigações dos Homicídios"
 
 Parceria com a Secretaria de Estado de Segurança Pública para fortalecer a perícia Oficial de Natureza Criminal e priorizar e concluir as investigações de crimes dolosos contra a vida em tramitação há mais de 04 anos.
+
+##### Projeto Júri-Saúde
+Conjunto de ações voltadas aos membros do MPMA, com atuação no Tribunal do Júri, visando garantir uma melhor qualidade de vida do membro antes, durante e depois das sessões do Júri.
+
 
 ##### Iniciativa "MPMA em Defesa da Vida"
 
