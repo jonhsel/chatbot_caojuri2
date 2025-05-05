@@ -75,14 +75,14 @@ def carrega_arquivos(pasta_arquivos):
                 "NTC-CAOJURI22025.md"          
                 ]
     
-    st.info(f"Tentando carregar {len(arquivos)} arquivos do GitHub...")
+    #st.info(f"Tentando carregar {len(arquivos)} arquivos do GitHub...")
     
     for nome_arquivo in arquivos:
         # Codifica o nome do arquivo para URL
         nome_arquivo_encoded = quote(nome_arquivo)
         url = base_url + nome_arquivo_encoded
         
-        st.info(f"Tentando carregar: {url}")
+        #st.info(f"Tentando carregar: {url}")
         
         try:
             # Faz uma requisição HTTP para obter o conteúdo do arquivo
