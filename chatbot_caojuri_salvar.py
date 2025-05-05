@@ -71,7 +71,8 @@ def carrega_arquivos(pasta_arquivos):
                 "Manual de manual de resolutividade CNMP.md",
                 "ODS.md",
                 "Projeto Jurado Voluntário.md",
-                "Promotorias do Júri.md"           
+                "Promotorias do Júri.md" ,
+                "NTC-CAOJURI22025.md"          
                 ]
     
     st.info(f"Tentando carregar {len(arquivos)} arquivos do GitHub...")
