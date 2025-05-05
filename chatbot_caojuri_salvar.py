@@ -92,7 +92,7 @@ def carrega_arquivos(pasta_arquivos):
             if response.status_code == 200:
                 # Obtém o conteúdo do arquivo
                 conteudo = response.text
-                st.success(f"Arquivo '{nome_arquivo}' carregado com sucesso!")
+                #st.success(f"Arquivo '{nome_arquivo}' carregado com sucesso!")
                 documentos.append(conteudo)
             else:
                 st.error(f"Erro ao baixar '{nome_arquivo}': Status code {response.status_code}")
@@ -104,7 +104,7 @@ def carrega_arquivos(pasta_arquivos):
         st.error("Nenhum documento foi carregado com sucesso.")
         return ""
     
-    st.success(f"Total de {len(documentos)} documentos carregados com sucesso!")
+    #st.success(f"Total de {len(documentos)} documentos carregados com sucesso!")
     return "\n\n".join(documentos)
 
 def carrega_modelo(documentos):
@@ -142,7 +142,7 @@ def carrega_modelo(documentos):
 
     #chat = ChatOpenAI(model='gpt-4o-mini', api_key=OPENAI_API_KEY)
     chat = ChatGoogleGenerativeAI(
-        model='gemini-2.0-flash-lite', 
+        model='gemini-2.0-flash', 
         api_key=GOOGLE_API_KEY,
         convert_system_message_to_human=True,  # Importante para compatibilidade
         temperature=0.5  # Ajuste a criatividade conforme necessário
