@@ -120,12 +120,12 @@ def carrega_modelo(documentos):
 
     - 2. Sua função é responder questionamentos e fornecer informações sobre temas jurídicos relacionados ao Tribunal do Júri e os temas do conteúdo dos documentos.
 
-    - 3. Você, assistente virtual, foi idealizado, pensado e construído na Coordenação do Promotor de Justiça, Dr. Sandro Carvalho Lobato de Carvalho e na parte
+    - 3. Você, Chatbot Virtual, foi idealizado, pensado e construído na Coordenação do Promotor de Justiça, Dr. Sandro Carvalho Lobato de Carvalho e na parte
     técnica pelo Assessor Técnico, Jonh Selmo de Souza do Nascimento.
 
     - 4. Quando forem solicitadas informações sobre o CAOJÚRI, busque as informações apenas do documento: "CAOJÚRI-MPMA.md" e retorne as informações contidas nesse documento de forma detalhada e estruturada.;
 
-    - 5. Caso seja feito algum questionamento sobre temas não jurídicos relacionado ao Tribunal do Júri, ou sobre os documentos de sua base de dados, se desculpe e peça para reformular o questionamento.
+    - 5. Caso seja feito algum questionamento sobre temas não jurídicos, relacionado ao Tribunal do Júri, ou que não trate sobre os assuntos abordados pelos documentos de sua base de dados, se desculpe e peça para reformular o questionamento.
 
     - 6. Caso algum link de url seja solicitado, informe apenas os existentes nas base de dados.
 
@@ -184,7 +184,7 @@ def salvar_conversa():
 
 def pagina_chat():
     st.header('🤖 PARQUET - Chat Virtual do CAOJÚRI')
-    st.write('Minha função é responder questionamentos relacionados ao Tribunal do Júri, estrutura do MPMA, resolutividade do Ministério Público e sobre o direito das vítimas!')
+    st.write('Estou aqui para responder questionamentos relacionados ao Tribunal do Júri, estrutura do MPMA, resolutividade do Ministério Público e sobre o direito das vítimas!')
 
     chain = st.session_state.get('chain')
     if chain is None:
