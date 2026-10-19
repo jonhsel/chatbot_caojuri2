@@ -183,7 +183,7 @@ def salvar_conversa():
         st.warning("Não há conversa para salvar.")
 
 def pagina_chat():
-    st.header('🤖 PARQUET - Chat Virtual do CAOJÚRI')
+    st.header('🤖 PARQUETO - Chat Virtual do CAOJÚRI')
     st.write('Estou aqui para responder questionamentos relacionados ao Tribunal do Júri, estrutura do MPMA, resolutividade do Ministério Público e sobre o direito das vítimas!')
 
     chain = st.session_state.get('chain')
