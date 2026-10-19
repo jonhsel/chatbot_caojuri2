@@ -34,7 +34,7 @@ CONFIG_MODELOS = {  'OpenAI':
                             {'modelos': ['gpt-4o-mini', 'gpt-4o'],
                             'chat': ChatOpenAI},
                     'Google':
-                            {'modelos':['gemini-2.0-flash', 'gemini-2.0-flash-lite-preview-02-05', 'gemini-1.5-flash', 'gemini-1.5-pro'],
+                            {'modelos':['gemini-3.8-flash', 'gemini-2.0-flash-lite-preview-02-05', 'gemini-1.5-flash', 'gemini-1.5-pro'],
                              'chat': ChatGoogleGenerativeAI}
 }
 

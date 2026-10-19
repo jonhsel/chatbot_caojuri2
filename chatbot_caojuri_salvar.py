@@ -142,7 +142,7 @@ def carrega_modelo(documentos):
 
     #chat = ChatOpenAI(model='gpt-4o-mini', api_key=OPENAI_API_KEY)
     chat = ChatGoogleGenerativeAI(
-        model='gemini-2.0-flash', 
+        model='gemini-3.8-flash', 
         api_key=GOOGLE_API_KEY,
         convert_system_message_to_human=True,  # Importante para compatibilidade
         temperature=0.5  # Ajuste a criatividade conforme necessário
