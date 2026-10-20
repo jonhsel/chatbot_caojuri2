@@ -7,6 +7,10 @@ from langchain.memory import ConversationBufferMemory
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
+from google.api_core.exceptions import ResourceExhausted
+import re
+
+from rag import BM25Retriever
 
 import nltk
 from loaders import carrega_pdf, carrega_csv, carrega_txt, carrega_md
@@ -44,6 +48,11 @@ GOOGLE_API_KEY = st.secrets["google"]["api_key"]
 
 
 MEMORIA = ConversationBufferMemory()
+
+# Quantidade de trechos recuperados por pergunta e de mensagens de histórico enviadas ao modelo
+K_TRECHOS = 8
+JANELA_HISTORICO = 6  # 3 trocas (pergunta + resposta)
+DOC_SEMPRE_INCLUIDO = "CAOJÚRI - MPMA.md"
 
 #pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
 #pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
@@ -93,7 +102,7 @@ def carrega_arquivos(pasta_arquivos):
                 # Obtém o conteúdo do arquivo
                 conteudo = response.text
                 #st.success(f"Arquivo '{nome_arquivo}' carregado com sucesso!")
-                documentos.append(conteudo)
+                documentos.append((nome_arquivo, conteudo))
             else:
                 st.error(f"Erro ao baixar '{nome_arquivo}': Status code {response.status_code}")
                 
@@ -102,17 +111,16 @@ def carrega_arquivos(pasta_arquivos):
     
     if not documentos:
         st.error("Nenhum documento foi carregado com sucesso.")
-        return ""
+        return []
     
-    #st.success(f"Total de {len(documentos)} documentos carregados com sucesso!")
-    return "\n\n".join(documentos)
+    return documentos
 
 def carrega_modelo(documentos):
     if not documentos:
         st.error("Nenhum documento foi carregado. Verifique a pasta 'arquivos'.")
         return
 
-    system_message = f''' Você é o chatbot virtual do CAOJÚRI.
+    system_message = ''' Você é o chatbot virtual do CAOJÚRI.
 
     Você possui acesso às seguintes informações vindas dos documentos:
 
@@ -129,8 +137,9 @@ def carrega_modelo(documentos):
 
     - 6. Caso algum link de url seja solicitado, informe apenas os existentes nas base de dados.
 
+    Abaixo estão os trechos mais relevantes dos documentos para a pergunta atual:
     ####
-    {documentos}
+    {contexto}
     ####
     '''
 
@@ -144,11 +153,14 @@ def carrega_modelo(documentos):
     chat = ChatGoogleGenerativeAI(
         model='gemini-3.8-flash', 
         api_key=GOOGLE_API_KEY,
-        convert_system_message_to_human=True,  # Importante para compatibilidade
-        temperature=0.5  # Ajuste a criatividade conforme necessário
+        temperature=0.5,  # Ajuste a criatividade conforme necessário
+        max_retries=1  # Evita esperas longas em cima do 429; o erro é tratado na interface
     )
     chain = template | chat
     st.session_state['chain'] = chain
+    st.session_state['retriever'] = BM25Retriever(documentos)
+    st.session_state['doc_fixo'] = next(
+        (c for n, c in documentos if n == DOC_SEMPRE_INCLUIDO), '')
 
 def salvar_conversa():
     if 'memoria' in st.session_state:
@@ -183,7 +195,7 @@ def salvar_conversa():
         st.warning("Não há conversa para salvar.")
 
 def pagina_chat():
-    st.header('🤖 PARQUETO - Chat Virtual do CAOJÚRI')
+    st.header('🤖 PARQUET - Chat Virtual do CAOJÚRI')
     st.write('Estou aqui para responder questionamentos relacionados ao Tribunal do Júri, estrutura do MPMA, resolutividade do Ministério Público e sobre o direito das vítimas!')
 
     chain = st.session_state.get('chain')
@@ -216,15 +228,36 @@ def pagina_chat():
 
     input_usuario = st.chat_input('Me pergunte algo!')
     if input_usuario:
-        memoria.chat_memory.add_user_message(input_usuario)
         chat = st.chat_message('human')
         chat.markdown(input_usuario)
 
+        historico = memoria.buffer_as_messages[-JANELA_HISTORICO:]
+
+        # A consulta inclui a pergunta anterior para dar contexto a perguntas de seguimento
+        ultimas_perguntas = [m.content for m in historico if m.type == 'human'][-1:]
+        consulta = ' '.join(ultimas_perguntas + [input_usuario])
+        contexto = st.session_state['retriever'].contexto(consulta, K_TRECHOS)
+        doc_fixo = st.session_state.get('doc_fixo', '')
+        if doc_fixo:
+            contexto = f'[Fonte: {DOC_SEMPRE_INCLUIDO}]\n{doc_fixo}\n\n{contexto}'
+
         chat = st.chat_message('ai')
-        resposta = chat.write_stream(chain.stream({
-            'input': input_usuario,
-            'chat_history': memoria.buffer_as_messages
-            }))
+        try:
+            resposta = chat.write_stream(chain.stream({
+                'input': input_usuario,
+                'chat_history': historico,
+                'contexto': contexto
+                }))
+        except Exception as e:
+            if isinstance(e, ResourceExhausted) or '429' in str(e):
+                m = re.search(r'retry in ([\d.]+)s', str(e))
+                espera = f' Tente novamente em cerca de {int(float(m.group(1))) + 1} segundos.' if m else ' Tente novamente em instantes.'
+                chat.warning('⏳ O limite de uso da IA foi atingido no momento.' + espera)
+            else:
+                chat.error(f'Erro ao gerar a resposta: {e}')
+            return
+
+        memoria.chat_memory.add_user_message(input_usuario)
         memoria.chat_memory.add_ai_message(resposta)
         st.session_state['memoria'] = memoria
 
