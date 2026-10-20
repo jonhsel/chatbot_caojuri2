@@ -53,3 +53,15 @@ button.st-emotion-cache-1rci6ej.ef3psqc13{
 div.img{
     align-content: center;
 }
+/* Resposta da IA: fundo claro fixo, então o texto precisa ser escuro também no tema dark */
+div.stChatMessage.st-emotion-cache-4oy321.eeusbqq4,
+div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) {
+    background-color: rgb(230, 240, 250);
+    color: #100530;
+}
+div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) :is(p, li, span, strong, em, h1, h2, h3, h4, h5, h6, td, th, a) {
+    color: #100530;
+}
+div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) a {
+    color: #0b4fb3;
+}
