@@ -63,7 +63,7 @@ def main():
     ap.add_argument("--tpm", type=int, default=1_000_000, help="limite de tokens de ENTRADA por minuto (premissa)")
     ap.add_argument("--rpm", type=int, default=None, help="limite de requisições por minuto (premissa)")
     ap.add_argument("--rpd", type=int, default=None, help="limite de requisições por dia (premissa)")
-    ap.add_argument("--janela", type=int, default=1_000_000, help="janela de contexto do modelo, em tokens")
+    ap.add_argument("--janela", type=int, default=1_048_576, help="limite de tokens de entrada do modelo (página do modelo, 21/10/2026)")
     ap.add_argument("--tokens-resposta", type=int, default=None, help="tokens médios por resposta (padrão: conversas salvas)")
     args = ap.parse_args()
 
@@ -146,7 +146,8 @@ def main():
                    if args.tpm == 1_000_000 else "informado pelo usuário",
             "rpm": "não informado" if args.rpm is None else "informado pelo usuário",
             "rpd": "não informado" if args.rpd is None else "informado pelo usuário",
-            "janela_contexto": "reportado pelo OpenRouter (1M); a documentação do Google consultada não a confirma para este modelo",
+            "janela_contexto": "confirmado pela página do modelo no Google (captura de tela de 21/10/2026): entrada 1.048.576 e saída 65.536 tokens"
+                               if args.janela == 1_048_576 else "informado pelo usuário",
         },
         "metrica_do_tpm": "tokens de ENTRADA por minuto (documentação de rate limits do Gemini API)",
     }

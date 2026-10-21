@@ -129,7 +129,7 @@ ul.tight{margin:0;padding-left:1.1em} ul.tight li{margin:3px 0;max-width:68ch}
         <label>TPM (tokens de entrada/min)<input id="i-tpm" type="number" min="1" step="1000" value="1000000"></label>
         <label>RPM (requisições/min)<input id="i-rpm" type="number" min="1" placeholder="não informado"></label>
         <label>RPD (requisições/dia)<input id="i-rpd" type="number" min="1" placeholder="não informado"></label>
-        <label>Janela de contexto (tokens)<input id="i-jan" type="number" min="1000" step="1000" value="1000000"></label>
+        <label>Limite de entrada (tokens)<input id="i-jan" type="number" min="1000" step="1000" value="1048576"></label>
       </div>
       <div id="lim" style="margin-top:14px"></div>
     </div>
@@ -359,7 +359,7 @@ $('diag').innerHTML = DG.achados.map(a => `<div class="find"><div class="t"><spa
 $('passos').innerHTML = DG.proximos_passos.map(p => `<li>${esc(p)}</li>`).join('');
 $('cuid').innerHTML = [
   `Tokens: contados com ${T.contador.descricao}. Para o número exato do modelo, rode medir_tokens.py com --modo api.`,
-  `Limites: TPM, RPM e RPD não são publicados por modelo na documentação do Google. O TPM de ${fmt(LIM.tpm)} é uma premissa, e a janela de 1 milhão de tokens vem do OpenRouter, não do Google.`,
+  `Limites: TPM, RPM e RPD não são publicados por modelo na documentação do Google. O TPM de ${fmt(LIM.tpm)} é uma premissa. O limite de ${fmt(LIM.janela_contexto)} tokens de entrada (e 65.536 de saída) vem da página do modelo no Google.`,
   `Resposta e histórico: ${T.premissas_conversa.tokens_resposta} tokens por resposta e ${T.premissas_conversa.tokens_pergunta} por pergunta, tirados de ${T.premissas_conversa.fonte} (conversas de abril de 2025, outro modelo).`,
   `Gabarito: as ${R.n_consultas} perguntas e a relevância de cada trecho foram definidas por padrões de texto, sem revisão humana. Ao trocar o critério “o trecho é o artigo” por “o trecho contém o fato-resposta”, o Recall@${KP} subiu de 0,69 para 0,74. Trate os valores como linha de base.`,
   `Cada pergunta é avaliada isoladamente. O app também usa a pergunta anterior na busca, o que não foi medido.`,

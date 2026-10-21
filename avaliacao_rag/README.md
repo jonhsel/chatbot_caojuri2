@@ -39,4 +39,4 @@ Os scripts leem a configuração (arquivos, `K_TRECHOS`, janela de histórico, m
 
 - **Gabarito:** edite `golden_set.json` com perguntas reais dos usuários. Cada pergunta tem `resposta` (trechos que contêm a resposta) e, opcionalmente, `apoio` (contexto útil). O avaliador recusa padrões que não casam com nenhum trecho.
 - **Tokens exatos:** `python avaliacao_rag/medir_tokens.py --modo api` usa a contagem do próprio Gemini (exige `GOOGLE_API_KEY`). Esse modo não foi testado na análise original, por falta de chave.
-- **Limites:** o Google não publica TPM, RPM e RPD por modelo na documentação. Informe os seus com `--tpm`, `--rpm` e `--rpd`.
+- **Limites:** o limite de entrada (1.048.576 tokens) e de saída (65.536) vem da página do modelo no Google. O Google não publica TPM, RPM e RPD por modelo na documentação; informe os seus com `--tpm`, `--rpm` e `--rpd`.
