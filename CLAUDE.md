@@ -5,10 +5,13 @@ Chatbot "PARQUET" do CAOJÚRI (MPMA), feito em Streamlit + LangChain + Gemini.
 ## Arquivos principais
 
 - `chatbot_caojuri_salvar.py`: app Streamlit em uso (chat, sidebar, salvar conversa).
-- `chatbot_caojuri.py`: versão anterior, sem a opção de salvar conversa. Não foi alterada.
+- `chatbot_caojuri.py`: versão anterior, sem a opção de salvar conversa. Obsoleta; foi movida para `arquivos/chatbot_caojuri.py` (commit `8fc982a`).
 - `rag.py`: recuperação de trechos (BM25) usada pelo app.
 - `loaders.py`: loaders de PDF/CSV/TXT/MD (não usados no fluxo atual).
 - `style.css`: estilos injetados no app.
+- `avaliacao_rag/`: scripts e relatório de avaliação do RAG (ver seção abaixo).
+- `Painel RAG CAOJÚRI.md`: texto do painel/relatório "antes e depois do RAG".
+- `avaliacao_rag.zip`: cópia compactada de `avaliacao_rag/`.
 - `arquivos/`: base de conhecimento em `.md`. O app baixa os arquivos do GitHub (`raw.githubusercontent.com/jonhsel/chatbot_caojuri2/master/arquivos/`), então **alterações em `arquivos/` só valem após push**.
 
 A chave da API fica em `st.secrets["google"]["api_key"]`.
@@ -79,6 +82,22 @@ Estado de `chatbot_caojuri_salvar.py` em 2026-10-20, antes da correção do 429 
 ### Contraste no tema dark
 
 A resposta da IA tem fundo claro fixo em `style.css`, e no tema dark o texto também ficava claro. Foi adicionada no fim de `style.css` uma regra que força texto escuro (`#100530`) e links azuis (`#0b4fb3`) na mensagem da IA. Usa `data-testid` do Streamlit (mais estável que as classes `st-emotion-cache-*`). Não foi conferida visualmente no navegador.
+
+### Ajustes no prompt e na interface (commits `60409ba` e `8fc982a`, 2026-10-21)
+
+- **System prompt:** removida a regra que mandava buscar informações sobre o CAOJÚRI "apenas do documento CAOJÚRI-MPMA.md". As regras foram renumeradas: a 4 agora trata de temas fora do escopo (pedir para reformular) e a 5, de links (informar só os existentes na base). O prompt termina com "Abaixo estão os trechos mais relevantes dos documentos para a pergunta atual", seguido de `{contexto}`.
+- **Aviso de 2 perguntas por minuto:** o `st.info` foi comentado em `pagina_chat`, já que o RAG eliminou o problema de cota.
+- **`chatbot_caojuri.py`** (versão sem salvar conversa) foi movido para `arquivos/`.
+
+### Avaliação do RAG (commit `0baaf9b`, 2026-10-21)
+
+Pasta `avaliacao_rag/` (detalhes no `README.md` dela). Mede o consumo de tokens antes e depois do RAG e a qualidade da recuperação (Precision@k, Recall@k, MRR, MAP e NDCG).
+
+- Rodar tudo: `python avaliacao_rag/executar_tudo.py` (opcional: `--tpm`, `--rpm`, `--rpd` com os limites reais da chave). Dependências extras: `pip install google-genai sentencepiece`.
+- Resultado: `avaliacao_rag/resultados/relatorio_rag.html`, ou `streamlit run avaliacao_rag/painel_metricas.py`.
+- `golden_set.json`: 51 perguntas com gabarito (padrões de texto). Editar com perguntas reais dos usuários melhora a confiança das métricas.
+- Os scripts leem arquivos, `K_TRECHOS`, janela de histórico, modelo e prompt direto de `chatbot_caojuri_salvar.py`, então acompanham mudanças no app.
+- `medir_tokens.py --modo api` (contagem exata pelo Gemini) não foi testado por falta de chave. TPM/RPM/RPD não são publicados por modelo pelo Google; o TPM padrão é uma premissa.
 
 ## Ajustes rápidos
 
