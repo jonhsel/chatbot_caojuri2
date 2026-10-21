@@ -1,0 +1,72 @@
+{
+  "referencia": "Diagnóstico feito em 21/10/2026 sobre o commit 0794dfa (branch master). Os números marcados como medidos foram obtidos nesta análise; os demais são leitura do código.",
+  "achados": [
+    {
+      "severidade": "atencao",
+      "titulo": "O aviso “até 2 perguntas por minuto” ficou obsoleto",
+      "detalhe": "A linha 215 de chatbot_caojuri_salvar.py ainda diz que o chat processa até 2 perguntas por minuto. Esse limite existia porque cada pergunta enviava o acervo inteiro (~470 mil tokens). Com o RAG cada pergunta envia ~5,5 mil tokens, então o limite deixa de ser o TPM e passa a ser o RPM da sua chave.",
+      "evidencia": "medido"
+    },
+    {
+      "severidade": "atencao",
+      "titulo": "O documento fixo ocupa quase metade do contexto",
+      "detalhe": "“CAOJÚRI - MPMA.md” entra inteiro em toda pergunta: 2.265 tokens de uma média de ~5.190 (44%). Isso garante as respostas sobre o CAOJÚRI, mas gasta tokens quando a pergunta é sobre outro assunto. Alternativa: incluí-lo só quando a pergunta citar o CAOJÚRI.",
+      "evidencia": "medido"
+    },
+    {
+      "severidade": "atencao",
+      "titulo": "chatbot_caojuri.py continua sem RAG",
+      "detalhe": "Se esse arquivo for executado, o app volta a enviar todo o acervo a cada pergunta e a pedir a chave da API num campo de texto. Vale arquivá-lo ou removê-lo para ninguém iniciar o app errado.",
+      "evidencia": "código"
+    },
+    {
+      "severidade": "melhoria",
+      "titulo": "Download e índice refeitos a cada clique em “Iniciar o Parquet”",
+      "detalhe": "O app baixa os 16 arquivos do GitHub, um por vez, e recria o índice BM25 sempre que o botão é usado. Aqui o download levou 8,5 s e o índice 0,8 s (valores deste ambiente, não do Streamlit Cloud). Um cache de recurso do Streamlit para o recuperador evitaria repetir isso entre sessões.",
+      "evidencia": "medido"
+    },
+    {
+      "severidade": "melhoria",
+      "titulo": "O BM25 quase não normaliza palavras",
+      "detalhe": "O rag.py só remove o “s” final. Por isso “pronuncia” e “pronunciará”, “promotor” e “promotores”, “decisão” e “decisões” viram termos diferentes. Isso explica parte das falhas em perguntas sobre o CPP e nas paráfrases. Um stemmer em português (por exemplo, RSLP do NLTK) ou busca por embeddings combinada ao BM25 atacaria esse ponto.",
+      "evidencia": "medido"
+    },
+    {
+      "severidade": "melhoria",
+      "titulo": "Imports e downloads que o app de produção não usa",
+      "detalhe": "chatbot_caojuri_salvar.py importa tempfile, ChatOpenAI e as funções carrega_pdf, carrega_csv, carrega_txt e carrega_md, e nenhuma é chamada. Também verifica e baixa dados do NLTK a cada partida a frio, sem usar o NLTK. Remover isso reduz o tempo de partida e as dependências.",
+      "evidencia": "código"
+    },
+    {
+      "severidade": "melhoria",
+      "titulo": "Higiene do repositório",
+      "detalhe": "4 arquivos .pyc estão versionados. As pastas entrada/ (11 arquivos, ~115 MB de PDFs), diversos/ (6) e conversas_salvas/ (3) estão no .gitignore, mas continuam rastreadas porque foram adicionadas antes. Um “git rm --cached” resolve; o clone inteiro tem cerca de 220 MB.",
+      "evidencia": "medido"
+    },
+    {
+      "severidade": "info",
+      "titulo": "Dois documentos fora do índice",
+      "detalhe": "“Comentários 1ª Fase.md” e “Comentários 2ª Fase.md” (462 KB) estão na pasta arquivos/, mas não na lista que o app baixa. Se a retirada foi intencional (há um commit “retirada de comentários”), está certo. Se não, o chatbot não os consulta.",
+      "evidencia": "medido"
+    },
+    {
+      "severidade": "info",
+      "titulo": "A consulta de recuperação inclui a pergunta anterior",
+      "detalhe": "Ajuda perguntas de seguimento (“e o prazo?”), mas pode atrapalhar quando o assunto muda. Esta avaliação usa perguntas isoladas, então esse efeito não foi medido.",
+      "evidencia": "não medido"
+    },
+    {
+      "severidade": "ok",
+      "titulo": "O que está funcionando bem",
+      "detalhe": "As 16 URLs do GitHub respondem 200 e o nome do documento fixo casa com a lista (inclusive o arquivo com acentuação decomposta). A chave fica em st.secrets. O erro 429 vira uma mensagem clara e a pergunta não entra no histórico quando falha. O BM25 próprio roda localmente, sem chamada externa e sem gastar cota de API.",
+      "evidencia": "medido"
+    }
+  ],
+  "proximos_passos": [
+    "Confirmar os limites reais de TPM, RPM e RPD da sua chave no painel Rate limit do AI Studio e rodar medir_tokens.py com --tpm, --rpm e --rpd.",
+    "Rodar medir_tokens.py com --modo api para obter a contagem exata de tokens do modelo.",
+    "Revisar e ampliar o golden_set.json com perguntas reais dos usuários; ele é a parte que mais influencia as métricas.",
+    "Atualizar ou remover o aviso de 2 perguntas por minuto.",
+    "Testar um stemmer em português ou uma busca híbrida (BM25 + embeddings) e comparar com as mesmas métricas."
+  ]
+}

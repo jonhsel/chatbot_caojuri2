@@ -1,0 +1,368 @@
+<title>Painel RAG CAOJÚRI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: relatório de uma coluna (880px) com seções numeradas por assunto; resumo primeiro, detalhe depois. */
+:root{
+  --bg:#f4f5f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#6a6862;
+  --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10);
+  --antes:#eb6834; --depois:#2a78d6; --c3:#1baf7a; --c4:#eda100; --c5:#e87ba4;
+  --good:#006300; --bad:#d03b3b; --warnbg:#fff4d6; --warnfg:#6b4a00;
+  --font:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#9a988f;
+  --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10);
+  --antes:#d95926; --depois:#3987e5; --c3:#199e70; --c4:#c98500; --c5:#d55181;
+  --good:#0ca30c; --bad:#e66767; --warnbg:#3a2f10; --warnfg:#f2d48a; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0d0d0d; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#9a988f;
+  --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10);
+  --antes:#d95926; --depois:#3987e5; --c3:#199e70; --c4:#c98500; --c5:#d55181;
+  --good:#0ca30c; --bad:#e66767; --warnbg:#3a2f10; --warnfg:#f2d48a; color-scheme:dark;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55;
+  padding-block:24px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:40px;min-width:0}
+h1{font-size:clamp(1.5rem,4vw,2rem);line-height:1.2;margin:0 0 6px;font-weight:600;text-wrap:balance}
+h2{font-size:1.25rem;margin:0 0 4px;font-weight:600;text-wrap:balance}
+h3{font-size:1rem;margin:0 0 6px;font-weight:600}
+p{margin:0 0 8px;max-width:68ch}
+.sub{color:var(--ink2);font-size:.9rem}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+nav{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem;margin-top:12px}
+nav a{color:var(--depois);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus-visible{border-bottom-color:currentColor;outline:none}
+section{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px;min-width:0}
+.g4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.kpi{display:flex;flex-direction:column;gap:2px}
+.kpi .v{font-size:1.7rem;font-weight:600;line-height:1.15}
+.kpi .l{font-size:.82rem;color:var(--ink2)}
+.kpi .n{font-size:.78rem;color:var(--muted)}
+.arrow{color:var(--muted);font-weight:400}
+.antes{color:var(--antes)} .depois{color:var(--depois)}
+.tag{display:inline-block;font-family:var(--mono);font-size:.7rem;padding:1px 7px;border-radius:99px;border:1px solid var(--border);color:var(--ink2);white-space:nowrap}
+.tag.prem{background:var(--warnbg);color:var(--warnfg);border-color:transparent}
+.tag.ok{color:var(--good)} .tag.no{color:var(--bad)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.82rem;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font-weight:500;color:var(--ink2);font-size:.78rem;white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{display:flex;align-items:center;gap:10px;font-size:.84rem}
+.bar .lab{flex:0 0 150px;color:var(--ink2);min-width:0;overflow-wrap:anywhere}
+.bar .tr{flex:1;height:14px;background:var(--grid);border-radius:3px;overflow:hidden;min-width:60px}
+.bar .tr b{display:block;height:100%;border-radius:0 3px 3px 0}
+.bar .val{flex:0 0 120px;text-align:right;font-variant-numeric:tabular-nums}
+.stack{display:flex;gap:2px;height:26px}
+.stack div{min-width:2px;border-radius:3px}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{fill:var(--ink2);font-family:var(--font);font-size:11px}
+details{border-top:1px solid var(--grid);padding:10px 0}
+details:first-of-type{border-top:0}
+summary{cursor:pointer;font-weight:500;list-style:none;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+details[open]>summary::before{transform:rotate(90deg)}
+summary:focus-visible{outline:2px solid var(--depois);outline-offset:3px;border-radius:3px}
+.dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:8px 0 0;font-size:.88rem}
+.dl dt{color:var(--muted)} .dl dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.formula{font-family:var(--mono);font-size:.82rem;background:var(--bg);padding:6px 10px;border-radius:6px;overflow-wrap:anywhere}
+label{font-size:.8rem;color:var(--ink2);display:flex;flex-direction:column;gap:3px}
+input,select{font:inherit;font-size:.9rem;padding:6px 8px;border:1px solid var(--axis);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0;width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--depois);outline-offset:1px}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.find{display:flex;flex-direction:column;gap:4px;padding:12px 0;border-top:1px solid var(--grid)}
+.find:first-child{border-top:0;padding-top:0}
+.find .t{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-weight:500}
+.pill{font-family:var(--mono);font-size:.68rem;padding:1px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.05em;border:1px solid currentColor}
+.pill.atencao{color:var(--bad)} .pill.melhoria{color:var(--warnfg);background:var(--warnbg);border-color:transparent}
+.pill.info{color:var(--ink2)} .pill.ok{color:var(--good)}
+.rk td{font-size:.82rem}
+.g2c{color:var(--good);font-weight:600} .g1c{color:var(--c4);font-weight:600} .g0c{color:var(--muted)}
+#tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.78rem;padding:6px 9px;border-radius:6px;max-width:260px;display:none;line-height:1.4}
+button.lnk{font:inherit;font-size:.82rem;background:none;border:1px solid var(--axis);color:var(--ink);padding:4px 10px;border-radius:6px;cursor:pointer}
+ul.tight{margin:0;padding-left:1.1em} ul.tight li{margin:3px 0;max-width:68ch}
+@media (max-width:520px){.bar .lab{flex-basis:96px}.bar .val{flex-basis:92px}}
+@media (prefers-reduced-motion:reduce){summary::before{transition:none}}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <div class="eyebrow" id="meta"></div>
+    <h1>Chatbot CAOJÚRI: antes e depois do RAG</h1>
+    <p class="sub">Consumo de tokens, limites do modelo e qualidade da recuperação, medidos sobre o código e os 16 documentos do projeto.</p>
+    <nav aria-label="Seções">
+      <a href="#resumo">Resumo</a><a href="#arquitetura">Antes e depois</a><a href="#tokens">Tokens e limites</a>
+      <a href="#metricas">Métricas de recuperação</a><a href="#perguntas">Perguntas</a><a href="#diagnostico">Diagnóstico</a><a href="#cuidados">Como interpretar</a>
+    </nav>
+  </header>
+
+  <section id="resumo"><h2>Resumo</h2><div class="grid g4" id="kpis"></div><p id="resumo-txt" class="sub"></p></section>
+
+  <section id="arquitetura">
+    <div><h2>Como era e como ficou</h2><p class="sub">Mesmo modelo e mesmos documentos. A mudança está no que vai dentro de cada pergunta.</p></div>
+    <div class="grid g2">
+      <div class="panel"><div class="eyebrow">Antes · commit 93ceaf2</div><h3>O acervo inteiro em toda pergunta</h3>
+        <ul class="tight"><li>Os 16 documentos eram concatenados e colocados na mensagem de sistema.</li><li>O histórico completo da conversa ia junto, crescendo a cada turno.</li><li>Cada pergunta consumia quase metade da janela de contexto e do TPM por minuto.</li></ul></div>
+      <div class="panel"><div class="eyebrow">Depois · commit 46b6872</div><h3>Só o que a pergunta precisa</h3>
+        <ul class="tight"><li>O rag.py divide os documentos em trechos de 1.500 caracteres e os indexa com BM25.</li><li>A cada pergunta entram os <span id="k1"></span> trechos mais relevantes e o documento “CAOJÚRI - MPMA.md”.</li><li>O histórico vai limitado às últimas <span id="j1"></span> mensagens.</li></ul></div>
+    </div>
+    <div class="panel chart"><h3>O que compõe o prompt depois do RAG <span class="sub">(a partir do 4º turno)</span></h3><div id="stack"></div><div class="legend" id="stack-leg"></div></div>
+  </section>
+
+  <section id="tokens">
+    <div><h2>Consumo de tokens</h2><p class="sub">Entrada por pergunta. A saída (resposta) é igual nos dois cenários.</p></div>
+    <div class="panel chart"><h3>Tokens de entrada por turno de uma conversa <span class="sub">(escala logarítmica)</span></h3><div id="ch-sessao"></div><div class="legend" id="leg-sessao"></div></div>
+    <div class="panel"><h3>Onde estão os tokens do acervo</h3><p class="sub" id="docs-txt"></p><div id="docs"></div></div>
+    <div class="panel">
+      <h3>Comparação com os limites do modelo <span class="tag prem">premissas editáveis</span></h3>
+      <p class="sub">A documentação do Google não publica TPM, RPM e RPD por modelo; eles aparecem no painel Rate limit do AI Studio, por projeto. O TPM inicial é uma premissa: é o valor que explica o aviso do próprio app (2 perguntas por minuto). Troque pelos seus.</p>
+      <div class="form">
+        <label>TPM (tokens de entrada/min)<input id="i-tpm" type="number" min="1" step="1000" value="1000000"></label>
+        <label>RPM (requisições/min)<input id="i-rpm" type="number" min="1" placeholder="não informado"></label>
+        <label>RPD (requisições/dia)<input id="i-rpd" type="number" min="1" placeholder="não informado"></label>
+        <label>Janela de contexto (tokens)<input id="i-jan" type="number" min="1000" step="1000" value="1000000"></label>
+      </div>
+      <div id="lim" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <section id="metricas">
+    <div><h2>Qualidade da recuperação</h2><p class="sub" id="met-sub"></p></div>
+    <div class="grid g4" id="mkpis"></div>
+    <div class="panel"><h3>O que cada métrica diz</h3><div id="expl"></div></div>
+    <div class="grid g2">
+      <div class="panel chart"><h3>Precision@k e Recall@k</h3><div id="ch-pr"></div><div class="legend" id="leg-pr"></div></div>
+      <div class="panel chart"><h3>MRR, MAP e NDCG por k</h3><div id="ch-rank"></div><div class="legend" id="leg-rank"></div></div>
+    </div>
+    <div class="panel"><h3>Por tipo de pergunta <span class="sub" id="cat-k"></span></h3><div id="cats"></div><div class="legend" id="leg-cat"></div></div>
+    <div class="panel"><h3>Um exemplo, passo a passo</h3><div id="exemplo"></div></div>
+  </section>
+
+  <section id="perguntas">
+    <div><h2>Pergunta por pergunta</h2><p class="sub">Use esta tabela para conferir o gabarito: se um trecho marcado como ✗ na verdade responde, o gabarito precisa de ajuste, não o recuperador.</p></div>
+    <div class="form" style="max-width:520px">
+      <label>Tipo<select id="f-cat"></select></label>
+      <label>Situação<select id="f-sit"><option value="todas">Todas</option><option value="falha">Sem trecho-resposta no top-k</option><option value="ok">Com trecho-resposta no top-k</option></select></label>
+    </div>
+    <div class="panel scroll"><table id="tq"><thead><tr><th>ID</th><th>Pergunta</th><th>Tipo</th><th class="num">1º relevante</th><th>No contexto real</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="diagnostico"><div><h2>Diagnóstico do projeto</h2><p class="sub" id="diag-ref"></p></div>
+    <div class="panel" id="diag"></div>
+    <div class="panel"><h3>Próximos passos sugeridos</h3><ul class="tight" id="passos"></ul></div></section>
+
+  <section id="cuidados"><h2>Como interpretar estes números</h2><div class="panel"><ul class="tight" id="cuid"></ul></div></section>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+const D = __DADOS__;
+const T = D.tokens, R = D.ret, DG = D.diag;
+const KP = String(R.k_producao);
+const fmt = n => Math.round(n).toLocaleString('pt-BR');
+const pct = (x, d = 1) => (x * 100).toLocaleString('pt-BR', {minimumFractionDigits: d, maximumFractionDigits: d}) + '%';
+const f2 = x => x.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+const f3 = x => x.toLocaleString('pt-BR', {minimumFractionDigits: 3, maximumFractionDigits: 3});
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const CAT = {institucional:'Institucional', contatos:'Contatos e promotorias', jurados:'Jurados', procedimento_cpp:'Procedimento (CPP)', conceitos_normas:'Conceitos e normas', parafrase:'Paráfrases'};
+const catNome = c => CAT[c] || c;
+
+/* ---------- tooltip ---------- */
+const tip = $('tip');
+function showTip(html, x, y){ tip.innerHTML = html; tip.style.display = 'block';
+  const w = tip.offsetWidth, h = tip.offsetHeight;
+  tip.style.left = Math.min(Math.max(8, x + 14), window.innerWidth - w - 8) + 'px';
+  tip.style.top = Math.min(Math.max(8, y - h - 10), window.innerHeight - h - 8) + 'px'; }
+function hideTip(){ tip.style.display = 'none'; }
+
+/* ---------- gráfico de linhas (SVG, escala única) ---------- */
+function lineChart(el, o){
+  const W = 520, H = 250, m = {l: 50, r: 16, t: 14, b: 30}, n = o.xs.length;
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const X = i => m.l + (n === 1 ? iw / 2 : i * iw / (n - 1));
+  const lg = v => Math.log10(Math.max(v, 1));
+  const Y = o.log ? (v => m.t + ih - (lg(v) - lg(o.yMin)) / (lg(o.yMax) - lg(o.yMin)) * ih)
+                  : (v => m.t + ih - (v - o.yMin) / (o.yMax - o.yMin) * ih);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label)}">`;
+  o.ticks.forEach(t => { const y = Y(t);
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y}" y2="${y}" stroke="${css('--grid')}" stroke-width="1"/>`;
+    s += `<text x="${m.l - 6}" y="${y + 3.5}" text-anchor="end">${o.yFmt(t)}</text>`; });
+  s += `<line x1="${m.l}" x2="${W - m.r}" y1="${m.t + ih}" y2="${m.t + ih}" stroke="${css('--axis')}"/>`;
+  o.xs.forEach((x, i) => { if (!o.xEvery || i % o.xEvery === 0 || i === n - 1) s += `<text x="${X(i)}" y="${H - 10}" text-anchor="middle">${x}</text>`; });
+  s += `<text x="${m.l + iw / 2}" y="${H - 0}" text-anchor="middle" style="font-size:10px">${esc(o.xTitle || '')}</text>`;
+  o.series.forEach(se => {
+    const pts = se.values.map((v, i) => `${X(i)},${Y(v)}`).join(' ');
+    s += `<polyline points="${pts}" fill="none" stroke="${se.color}" stroke-width="2" stroke-linejoin="round" ${se.dash ? 'stroke-dasharray="5 4"' : ''}/>`;
+    se.values.forEach((v, i) => { s += `<circle cx="${X(i)}" cy="${Y(v)}" r="3" fill="${se.color}" stroke="${css('--surface')}" stroke-width="2"/>`; });
+  });
+  s += `<line id="${el}-cx" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="${css('--muted')}" stroke-dasharray="3 3" visibility="hidden"/>`;
+  s += `<rect id="${el}-hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`;
+  $(el).innerHTML = s;
+  const svg = $(el).querySelector('svg'), hit = $(el + '-hit'), cx = $(el + '-cx');
+  hit.addEventListener('mousemove', e => {
+    const r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W;
+    const i = Math.max(0, Math.min(n - 1, Math.round((px - m.l) / iw * (n - 1))));
+    cx.setAttribute('x1', X(i)); cx.setAttribute('x2', X(i)); cx.setAttribute('visibility', 'visible');
+    showTip(`<b>${esc(o.xTitle || '')} ${o.xs[i]}</b><br>` + o.series.map(se => `${esc(se.name)}: ${o.tipFmt(se.values[i])}`).join('<br>'), e.clientX, e.clientY); });
+  hit.addEventListener('mouseleave', () => { cx.setAttribute('visibility', 'hidden'); hideTip(); });
+}
+const legend = (id, items) => $(id).innerHTML = items.map(([n, c]) => `<span><i style="background:${c}"></i>${esc(n)}</span>`).join('');
+
+/* ---------- cabeçalho e KPIs ---------- */
+const AG = R.agregado[KP], RES = T.resumo, CAP = T.capacidade, LIM = T.limites;
+$('meta').textContent = `Modelo ${T.modelo} · k = ${KP} · gerado em ${T.gerado_em.slice(0, 10)}`;
+$('k1').textContent = T.configuracao_do_app.k_trechos; $('j1').textContent = T.configuracao_do_app.janela_historico_msgs;
+$('kpis').innerHTML = [
+  [`${fmt(RES.entrada_antes_turno1)} <span class="arrow">→</span> ${fmt(RES.entrada_depois_turno1)}`, 'Tokens de entrada na 1ª pergunta', `redução de ${pct(RES.reducao_pct)} (÷${Math.round(RES.fator)})`],
+  [`${CAP.perguntas_por_minuto_antes} <span class="arrow">→</span> ${CAP.perguntas_por_minuto_depois}`, 'Perguntas por minuto que cabem no TPM', `com TPM de ${fmt(LIM.tpm)} (premissa)`],
+  [pct(AG.recall, 0), `Recall@${KP}: a resposta chega ao modelo`, `${pct(R.cobertura_contexto_real, 0)} contando o documento fixo`],
+  [f2(AG.mrr), 'MRR: posição do 1º trecho útil', `${fmt(R.n_consultas)} perguntas, ${fmt(R.n_trechos_indexados)} trechos`]
+].map(([v, l, n]) => `<div class="panel kpi"><div class="v mono">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`).join('');
+$('resumo-txt').textContent = `O RAG tira cerca de ${pct(RES.reducao_pct, 0)} dos tokens de cada pergunta. O custo está na recuperação: em ${pct(1 - R.cobertura_contexto_real, 0)} das perguntas de teste o trecho com a resposta não chegou ao modelo, mesmo contando o documento fixo.`;
+
+/* ---------- composição do prompt depois do RAG ---------- */
+(function(){
+  const jan = T.configuracao_do_app.janela_historico_msgs / 2, pm = T.premissas_conversa;
+  const hist = jan * (pm.tokens_pergunta + pm.tokens_resposta);
+  const trechos = T.contexto_rag.media - T.doc_fixo_tokens;
+  const seg = [['Instruções do sistema', T.prompt_sistema.depois, '--c3'], ['Documento fixo (CAOJÚRI)', T.doc_fixo_tokens, '--c4'],
+    [`Trechos do BM25 (média)`, trechos, '--depois'], [`Histórico (${jan} trocas)`, hist, '--antes'], ['Pergunta', pm.tokens_pergunta, '--c5']];
+  const tot = seg.reduce((a, s) => a + s[1], 0);
+  $('stack').innerHTML = `<div class="stack" role="img" aria-label="Composição do prompt">` + seg.map(([n, v, c]) =>
+    `<div style="flex:${v};background:var(${c})" data-t="${esc(n)}: ${fmt(v)} tokens (${pct(v / tot)})"></div>`).join('') + `</div>`;
+  $('stack-leg').innerHTML = seg.map(([n, v, c]) => `<span><i style="background:var(${c})"></i>${esc(n)} <span class="mono">${fmt(v)}</span></span>`).join('') + `<span class="mono">total ${fmt(tot)}</span>`;
+  $('stack').querySelectorAll('[data-t]').forEach(d => { d.addEventListener('mousemove', e => showTip(d.dataset.t, e.clientX, e.clientY)); d.addEventListener('mouseleave', hideTip); });
+})();
+
+/* ---------- sessão ---------- */
+lineChart('ch-sessao', {label: 'Tokens de entrada por turno', xs: T.sessao.map(s => s.turno), xTitle: 'Turno', log: true, yMin: 1000, yMax: 1000000,
+  ticks: [1000, 10000, 100000, 1000000], yFmt: v => v >= 1000000 ? '1 mi' : v >= 1000 ? (v / 1000) + ' mil' : v,
+  tipFmt: v => fmt(v) + ' tokens',
+  series: [{name: 'Antes do RAG', color: css('--antes'), values: T.sessao.map(s => s.entrada_antes)}, {name: 'Depois do RAG', color: css('--depois'), values: T.sessao.map(s => s.entrada_depois)}]});
+legend('leg-sessao', [['Antes do RAG', css('--antes')], ['Depois do RAG', css('--depois')]]);
+
+/* ---------- documentos ---------- */
+(function(){
+  const docs = T.acervo.documentos, top3 = docs.slice(0, 3).reduce((a, d) => a + d.pct_do_acervo, 0);
+  $('docs-txt').textContent = `${fmt(T.acervo.tokens)} tokens no total (${f2(T.acervo.chars_por_token)} caracteres por token). Os três maiores documentos somam ${pct(top3, 0)}.`;
+  const mx = docs[0].tokens;
+  $('docs').innerHTML = docs.map(d => `<div class="bar" style="margin:5px 0"><div class="lab">${esc(d.nome.replace('.md', ''))}</div><div class="tr"><b style="width:${d.tokens / mx * 100}%;background:var(--depois)"></b></div><div class="val mono">${fmt(d.tokens)} · ${pct(d.pct_do_acervo)}</div></div>`).join('');
+})();
+
+/* ---------- limites (interativo) ---------- */
+function renderLimites(){
+  const tpm = +$('i-tpm').value || 0, rpm = +$('i-rpm').value || null, rpd = +$('i-rpd').value || null, jan = +$('i-jan').value || 1;
+  const a = RES.entrada_antes_turno1, d = RES.entrada_depois_turno1;
+  const porMin = t => { const lim = [['TPM', Math.floor(tpm / t)]]; if (rpm) lim.push(['RPM', rpm]); lim.sort((x, y) => x[1] - y[1]); return lim[0]; };
+  const [la, na] = porMin(a), [ld, nd] = porMin(d);
+  const barra = (v, cor) => `<div class="tr" style="height:14px;background:var(--grid);border-radius:3px;overflow:hidden"><b style="display:block;height:100%;width:${Math.min(100, v * 100)}%;background:${cor}"></b></div>`;
+  const dia = (n, t) => { const porTpm = Math.floor(tpm / t) * 1440; const lim = rpd ? Math.min(rpd, porTpm) : porTpm; return rpd && rpd < porTpm ? `${fmt(lim)} (limita o RPD)` : `${fmt(lim)}${rpd ? '' : ' (só pelo TPM)'}`; };
+  $('lim').innerHTML = `<div class="scroll"><table><thead><tr><th></th><th class="num antes">Antes</th><th class="num depois">Depois</th></tr></thead><tbody>
+    <tr><td>Tokens de entrada na 1ª pergunta</td><td class="num">${fmt(a)}</td><td class="num">${fmt(d)}</td></tr>
+    <tr><td>Parte do TPM que uma pergunta usa</td><td class="num">${pct(a / tpm)}</td><td class="num">${pct(d / tpm)}</td></tr>
+    <tr><td>Parte da janela de contexto</td><td class="num">${pct(a / jan)}${a > jan ? ' ✗ não cabe' : ''}</td><td class="num">${pct(d / jan)}</td></tr>
+    <tr><td>Perguntas por minuto que cabem</td><td class="num">${na} <span class="sub">(limita o ${la})</span></td><td class="num">${nd} <span class="sub">(limita o ${ld})</span></td></tr>
+    <tr><td>Perguntas por dia, no ritmo máximo</td><td class="num">${dia(0, a)}</td><td class="num">${dia(0, d)}</td></tr></tbody></table></div>
+    <div style="display:grid;gap:8px;margin-top:12px"><div><div class="sub">Uso do TPM por pergunta, antes</div>${barra(a / tpm, 'var(--antes)')}</div><div><div class="sub">Uso do TPM por pergunta, depois</div>${barra(d / tpm, 'var(--depois)')}</div></div>
+    <p class="sub" style="margin-top:10px">${rpm ? '' : 'Sem o RPM informado só dá para ver o limite pelo TPM. Depois do RAG, o RPM tende a ser o próximo gargalo. '}O TPM conta tokens de entrada. Faixa de TPM compatível com “2 por minuto” na versão antiga: ${fmt(CAP.tpm_implicito_faixa[0])} a ${fmt(CAP.tpm_implicito_faixa[1])}.</p>`;
+}
+['i-tpm', 'i-rpm', 'i-rpd', 'i-jan'].forEach(i => $(i).addEventListener('input', renderLimites));
+renderLimites();
+
+/* ---------- métricas ---------- */
+$('met-sub').textContent = `${R.n_consultas} perguntas, ${R.n_trechos_indexados} trechos indexados. Valores com k = ${KP}, o mesmo K_TRECHOS do app.`;
+const MET = [['precision', 'Precision@k', AG.precision, `máximo possível ${f2(AG.precision_maxima)}`], ['recall', 'Recall@k', AG.recall, 'a mais importante em RAG'],
+  ['mrr', 'MRR', AG.mrr, '1,00 = 1º resultado sempre serve'], ['map', 'MAP', AG.map, 'ordem de todos os relevantes'], ['ndcg', 'NDCG@k', AG.ndcg, '1,00 = ordem ideal']];
+$('mkpis').innerHTML = MET.map(([k, n, v, nota]) => `<div class="panel kpi"><div class="l">${n}</div><div class="v mono">${f2(v)}</div><div class="n">${nota}</div></div>`).join('');
+$('expl').innerHTML = MET.map(([k, n, v]) => { const e = D.expl[k]; return `<details><summary>${esc(e.nome)} <span class="tag mono">${f2(v)} no seu projeto</span></summary>
+  <p style="margin-top:8px"><b>${esc(e.pergunta)}</b></p><div class="formula">${esc(e.formula)}</div>
+  <dl class="dl"><dt>Como ler</dt><dd>${esc(e.como_ler)}</dd><dt>Limite</dt><dd>${esc(e.limite)}</dd></dl></details>`; }).join('');
+const ks = R.ks;
+lineChart('ch-pr', {label: 'Precision e Recall por k', xs: ks, xTitle: 'k', yMin: 0, yMax: 1, ticks: [0, .25, .5, .75, 1], yFmt: v => f2(v), tipFmt: v => f3(v),
+  series: [{name: 'Precision@k', color: css('--depois'), values: ks.map(k => R.agregado[k].precision)}, {name: 'Recall@k', color: css('--antes'), values: ks.map(k => R.agregado[k].recall)}]});
+legend('leg-pr', [['Precision@k', css('--depois')], ['Recall@k', css('--antes')]]);
+lineChart('ch-rank', {label: 'MRR, MAP e NDCG por k', xs: ks, xTitle: 'k', yMin: 0, yMax: 1, ticks: [0, .25, .5, .75, 1], yFmt: v => f2(v), tipFmt: v => f3(v),
+  series: [{name: 'MRR', color: css('--c3'), values: ks.map(k => R.agregado[k].mrr)}, {name: 'MAP', color: css('--c4'), values: ks.map(k => R.agregado[k].map)}, {name: 'NDCG', color: css('--c5'), values: ks.map(k => R.agregado[k].ndcg)}]});
+legend('leg-rank', [['MRR', css('--c3')], ['MAP', css('--c4')], ['NDCG', css('--c5')]]);
+
+/* por categoria */
+$('cat-k').textContent = `(k = ${KP})`;
+(function(){
+  const cats = Object.entries(R.por_categoria).sort((a, b) => b[1].por_k[KP].recall - a[1].por_k[KP].recall);
+  $('cats').innerHTML = cats.map(([c, v]) => { const m = v.por_k[KP];
+    const b = (x, cor) => `<div class="tr" style="height:10px;background:var(--grid);border-radius:3px;overflow:hidden;margin:2px 0"><b style="display:block;height:100%;width:${x * 100}%;background:${cor}"></b></div>`;
+    return `<div class="bar" style="margin:8px 0" data-t="${esc(catNome(c))}: Recall ${f2(m.recall)} · MRR ${f2(m.mrr)} · NDCG ${f2(m.ndcg)}"><div class="lab">${esc(catNome(c))} <span class="sub">(${v.n})</span></div><div style="flex:1;min-width:60px">${b(m.recall, 'var(--antes)')}${b(m.mrr, 'var(--depois)')}</div><div class="val mono">R ${f2(m.recall)} · MRR ${f2(m.mrr)}</div></div>`; }).join('');
+  $('cats').querySelectorAll('[data-t]').forEach(d => { d.addEventListener('mousemove', e => showTip(d.dataset.t, e.clientX, e.clientY)); d.addEventListener('mouseleave', hideTip); });
+  legend('leg-cat', [['Recall@k', css('--antes')], ['MRR', css('--depois')]]);
+})();
+
+/* exemplo passo a passo (mesmas fórmulas do Python) */
+(function(){
+  const q = R.consultas.find(c => c.posicao_primeiro_relevante >= 2 && c.posicao_primeiro_relevante <= 4 && c.total_relevantes >= 1) || R.consultas[0];
+  const K = 5, top = q.top.slice(0, K), g = top.map(t => t.grau), bin = g.map(x => x >= 2 ? 1 : 0), Rt = q.total_relevantes;
+  const hits = bin.reduce((a, b) => a + b, 0), pos = bin.map((b, i) => b ? i + 1 : 0).filter(Boolean);
+  let acc = 0, aps = []; bin.forEach((b, i) => { if (b) { acc++; aps.push(`${acc}/${i + 1}`); } });
+  const apv = Rt ? (bin.reduce((s, b, i, arr) => b ? s + arr.slice(0, i + 1).reduce((x, y) => x + y, 0) / (i + 1) : s, 0)) / Math.min(Rt, K) : 0;
+  const dcg = (gr) => gr.slice(0, K).reduce((s, x, i) => s + (Math.pow(2, x) - 1) / Math.log2(i + 2), 0);
+  const ideal = [].concat(Array(Rt).fill(2), Array(q.total_apoio || 0).fill(1));
+  const nd = dcg(g) / dcg(ideal), rr = pos.length ? 1 / pos[0] : 0;
+  const ok = Math.abs(nd - q.metricas[K].ndcg) < 1e-9 && Math.abs(apv - q.metricas[K].ap) < 1e-9 && Math.abs(hits / K - q.metricas[K].precision) < 1e-9;
+  $('exemplo').innerHTML = `<p>Pergunta <span class="mono">${esc(q.id)}</span>: “${esc(q.pergunta)}”. No acervo há <b>${Rt}</b> trecho(s) com a resposta (R = ${Rt}). Estes foram os ${K} primeiros resultados do BM25:</p>
+  <div class="scroll"><table class="rk"><thead><tr><th class="num">Pos.</th><th>Relevância</th><th>Documento</th><th>Início do trecho</th></tr></thead><tbody>` +
+  top.map(t => `<tr><td class="num">${t.posicao}</td><td class="${t.grau === 2 ? 'g2c' : t.grau === 1 ? 'g1c' : 'g0c'}">${t.grau === 2 ? '✓ tem a resposta (2)' : t.grau === 1 ? '◐ contexto útil (1)' : '✗ não serve (0)'}</td><td>${esc(t.fonte.replace('.md', ''))}</td><td>${esc(t.trecho.slice(0, 90))}…</td></tr>`).join('') + `</tbody></table></div>
+  <dl class="dl" style="margin-top:12px">
+  <dt>Precision@${K}</dt><dd><span class="mono">${hits} ÷ ${K} = ${f3(hits / K)}</span> (${hits} de ${K} resultados têm a resposta)</dd>
+  <dt>Recall@${K}</dt><dd><span class="mono">${hits} ÷ ${Rt} = ${f3(Rt ? hits / Rt : 0)}</span> (dos ${Rt} trechos úteis do acervo, ${hits} apareceram)</dd>
+  <dt>Rank recíproco</dt><dd><span class="mono">${pos.length ? '1 ÷ ' + pos[0] + ' = ' + f3(rr) : '0'}</span> (o 1º trecho útil está na posição ${pos[0] || '—'}). O MRR é a média disso sobre as ${R.n_consultas} perguntas.</dd>
+  <dt>AP@${K}</dt><dd><span class="mono">${aps.length ? '(' + aps.join(' + ') + ') ÷ ' + Math.min(Rt, K) + ' = ' + f3(apv) : '0'}</span> (soma da precisão em cada posição que acertou). O MAP é a média sobre as perguntas.</dd>
+  <dt>NDCG@${K}</dt><dd><span class="mono">${f3(dcg(g))} ÷ ${f3(dcg(ideal))} = ${f3(nd)}</span> (ganho obtido ÷ ganho da ordem ideal, com peso 2<sup>grau</sup>−1 e desconto por posição)</dd></dl>
+  <p class="sub">Conferência: ${ok ? 'os valores acima coincidem com os calculados pelo Python.' : 'diferença em relação ao Python, verifique o gabarito.'}</p>`;
+})();
+
+/* tabela de perguntas */
+(function(){
+  const sel = $('f-cat'); sel.innerHTML = '<option value="todas">Todos</option>' + Object.keys(R.por_categoria).map(c => `<option value="${c}">${esc(catNome(c))}</option>`).join('');
+  const tb = $('tq').querySelector('tbody'), K = +KP;
+  function draw(){
+    const fc = sel.value, fs = $('f-sit').value;
+    tb.innerHTML = '';
+    R.consultas.filter(c => (fc === 'todas' || c.categoria === fc)).forEach(c => {
+      const p = c.posicao_primeiro_relevante, dentro = p && p <= K;
+      if (fs === 'falha' && dentro) return; if (fs === 'ok' && !dentro) return;
+      const tr = document.createElement('tr'); tr.style.cursor = 'pointer'; tr.tabIndex = 0;
+      tr.innerHTML = `<td class="mono">${c.id}</td><td>${esc(c.pergunta)}</td><td>${esc(catNome(c.categoria))}</td><td class="num">${p ? p + 'º' : '—'}</td><td>${c.resposta_no_contexto_real ? '<span class="tag ok">✓ sim</span>' : '<span class="tag no">✗ não</span>'}</td>`;
+      const det = document.createElement('tr'); det.hidden = true;
+      det.innerHTML = `<td colspan="5"><div class="scroll"><table class="rk"><tbody>` + c.top.slice(0, K).map(t => `<tr><td class="num">${t.posicao}</td><td class="${t.grau === 2 ? 'g2c' : t.grau === 1 ? 'g1c' : 'g0c'}">${t.grau === 2 ? '✓' : t.grau === 1 ? '◐' : '✗'}</td><td>${esc(t.fonte.replace('.md', ''))}</td><td>${esc(t.trecho)}…</td></tr>`).join('') + `</tbody></table></div></td>`;
+      const tog = () => { det.hidden = !det.hidden; };
+      tr.addEventListener('click', tog); tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); tog(); } });
+      tb.appendChild(tr); tb.appendChild(det);
+    });
+  }
+  sel.addEventListener('change', draw); $('f-sit').addEventListener('change', draw); draw();
+})();
+
+/* diagnóstico e cuidados */
+$('diag-ref').textContent = DG.referencia;
+const ROT = {atencao: 'Atenção', melhoria: 'Melhoria', info: 'Informação', ok: 'Ok'};
+$('diag').innerHTML = DG.achados.map(a => `<div class="find"><div class="t"><span class="pill ${a.severidade}">${ROT[a.severidade]}</span>${esc(a.titulo)} <span class="tag">${esc(a.evidencia)}</span></div><div class="sub" style="max-width:70ch">${esc(a.detalhe)}</div></div>`).join('');
+$('passos').innerHTML = DG.proximos_passos.map(p => `<li>${esc(p)}</li>`).join('');
+$('cuid').innerHTML = [
+  `Tokens: contados com ${T.contador.descricao}. Para o número exato do modelo, rode medir_tokens.py com --modo api.`,
+  `Limites: TPM, RPM e RPD não são publicados por modelo na documentação do Google. O TPM de ${fmt(LIM.tpm)} é uma premissa, e a janela de 1 milhão de tokens vem do OpenRouter, não do Google.`,
+  `Resposta e histórico: ${T.premissas_conversa.tokens_resposta} tokens por resposta e ${T.premissas_conversa.tokens_pergunta} por pergunta, tirados de ${T.premissas_conversa.fonte} (conversas de abril de 2025, outro modelo).`,
+  `Gabarito: as ${R.n_consultas} perguntas e a relevância de cada trecho foram definidas por padrões de texto, sem revisão humana. Ao trocar o critério “o trecho é o artigo” por “o trecho contém o fato-resposta”, o Recall@${KP} subiu de 0,69 para 0,74. Trate os valores como linha de base.`,
+  `Cada pergunta é avaliada isoladamente. O app também usa a pergunta anterior na busca, o que não foi medido.`,
+  `Trechos de artigos longos podem ser cortados entre dois trechos; o gabarito reconhece o trecho que contém o fato, não necessariamente o artigo completo.`
+].map(t => `<li>${esc(t)}</li>`).join('');
+</script>

@@ -1,0 +1,766 @@
+{
+  "versao": 2,
+  "descricao": "Conjunto de perguntas de avaliação do recuperador (BM25) do chatbot CAOJÚRI, com gabarito por padrão de texto.",
+  "criterio_de_relevancia": {
+    "grau_2_resposta": "trecho do arquivo indicado cujo texto (sem acentos, caixa ou espaços extras) casa com o padrão de 'resposta': contém o FATO que responde à pergunta (inclusive comentários que repetem a norma).",
+    "grau_1_apoio": "trecho do arquivo indicado que casa com o padrão de 'apoio' (ex.: comentário que cita o artigo): contexto útil, mas não traz a resposta.",
+    "grau_0": "qualquer outro trecho."
+  },
+  "regras_de_padrao": "Padrões são expressões regulares aplicadas ao texto normalizado; use apenas escapes minúsculos (\\s, \\d, \\w). Números de nota de rodapé embutidos no texto podem quebrar frases longas: prefira trechos curtos e contíguos.",
+  "aviso": "Gabarito inicial elaborado a partir do texto dos documentos, não por usuários reais. Revise e amplie com perguntas reais; o gabarito é a parte mais importante da avaliação.",
+  "consultas": [
+    {
+      "id": "q01",
+      "categoria": "institucional",
+      "pergunta": "qual o endereço do CAOJÚRI?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "Oswaldo\\s+Cruz"
+        }
+      ]
+    },
+    {
+      "id": "q02",
+      "categoria": "institucional",
+      "pergunta": "qual o telefone e o e-mail do CAOJÚRI?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "3219-1980"
+        }
+      ]
+    },
+    {
+      "id": "q03",
+      "categoria": "institucional",
+      "pergunta": "quando e por qual ato foi criado o CAOJÚRI?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "ATO\\s+REGULAMENTAR\\s+33/2021"
+        }
+      ]
+    },
+    {
+      "id": "q04",
+      "categoria": "institucional",
+      "pergunta": "quem é o coordenador do CAOJÚRI e quem são os membros?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "Sandro Carvalho"
+        }
+      ]
+    },
+    {
+      "id": "q05",
+      "categoria": "institucional",
+      "pergunta": "o que é a iniciativa Heimdall?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "Heimdall"
+        }
+      ]
+    },
+    {
+      "id": "q06",
+      "categoria": "institucional",
+      "pergunta": "quem é o procurador-geral de justiça do Maranhão?",
+      "resposta": [
+        {
+          "arquivo": "Informações.md",
+          "padrao": "Danilo José de Castro Ferreira"
+        }
+      ]
+    },
+    {
+      "id": "q07",
+      "categoria": "institucional",
+      "pergunta": "quais são os outros centros de apoio operacional do MPMA?",
+      "resposta": [
+        {
+          "arquivo": "Informações.md",
+          "padrao": "Centro de Apoio Operacional Criminal"
+        }
+      ]
+    },
+    {
+      "id": "q08",
+      "categoria": "institucional",
+      "pergunta": "como faço para denunciar pela ouvidoria do MPMA?",
+      "resposta": [
+        {
+          "arquivo": "Informações.md",
+          "padrao": "Disque 127"
+        }
+      ]
+    },
+    {
+      "id": "q09",
+      "categoria": "institucional",
+      "pergunta": "como consultar um processo no site do TJMA?",
+      "resposta": [
+        {
+          "arquivo": "Informações.md",
+          "padrao": "Busca processual no TJMA"
+        }
+      ]
+    },
+    {
+      "id": "q10",
+      "categoria": "institucional",
+      "pergunta": "quais são as atribuições da SEPLAG?",
+      "resposta": [
+        {
+          "arquivo": "Informações.md",
+          "padrao": "SEPLAG\\) desempenha importante papel"
+        },
+        {
+          "arquivo": "ATO-REG 22-2020.md",
+          "padrao": "Art\\. 76 Compete à Secretaria de Planejamento"
+        }
+      ]
+    },
+    {
+      "id": "q11",
+      "categoria": "contatos",
+      "pergunta": "qual o telefone da 25ª promotoria criminal de São Luís?",
+      "resposta": [
+        {
+          "arquivo": "Promotorias do Júri.md",
+          "padrao": "3219-1914"
+        }
+      ]
+    },
+    {
+      "id": "q12",
+      "categoria": "contatos",
+      "pergunta": "qual o endereço da promotoria de Raposa?",
+      "resposta": [
+        {
+          "arquivo": "Promotorias do Júri.md",
+          "padrao": "Jardim das Oliveiras"
+        }
+      ]
+    },
+    {
+      "id": "q13",
+      "categoria": "contatos",
+      "pergunta": "quais promotorias atuam no júri em Paço do Lumiar?",
+      "resposta": [
+        {
+          "arquivo": "Promotorias do Júri.md",
+          "padrao": "Maiobão"
+        }
+      ]
+    },
+    {
+      "id": "q14",
+      "categoria": "contatos",
+      "pergunta": "qual a lotação e o e-mail do promotor Aarão Carlos Lima Castro?",
+      "resposta": [
+        {
+          "arquivo": "Contatos institucionais - Procuradores e Promotores.md",
+          "padrao": "AARÃO CARLOS LIMA CASTRO"
+        }
+      ]
+    },
+    {
+      "id": "q15",
+      "categoria": "contatos",
+      "pergunta": "qual o contato do promotor Abel José Rodrigues Neto?",
+      "resposta": [
+        {
+          "arquivo": "Contatos institucionais - Procuradores e Promotores.md",
+          "padrao": "ABEL JOSÉ RODRIGUES NETO"
+        }
+      ]
+    },
+    {
+      "id": "q16",
+      "categoria": "jurados",
+      "pergunta": "quais são os requisitos para ser jurado?",
+      "resposta": [
+        {
+          "arquivo": "Projeto Jurado Voluntário.md",
+          "padrao": "notória idoneidade"
+        },
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "Art\\. 436\\. O serviço do júri é obrigatório"
+        }
+      ]
+    },
+    {
+      "id": "q17",
+      "categoria": "jurados",
+      "pergunta": "quais os benefícios de ser jurado?",
+      "resposta": [
+        {
+          "arquivo": "Projeto Jurado Voluntário.md",
+          "padrao": "cela especial"
+        },
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "constituirá serviço público relevante"
+        },
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "Art\\. 440\\. Constitui também direito"
+        }
+      ]
+    },
+    {
+      "id": "q18",
+      "categoria": "jurados",
+      "pergunta": "quem está isento do serviço do júri?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "estão isentos do serviço do júri"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q19",
+      "categoria": "jurados",
+      "pergunta": "quantos jurados são sorteados e quantos formam o conselho de sentença?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "Art\\. 447\\. O Tribunal do Júri é composto"
+        },
+        {
+          "arquivo": "Apresentação aos Jurados.md",
+          "padrao": "7 \\(sete\\) pessoas que farão parte do conselho de sentença"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q20",
+      "categoria": "jurados",
+      "pergunta": "como é feito o alistamento anual dos jurados?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "Art\\. 425\\. Anualmente"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q21",
+      "categoria": "jurados",
+      "pergunta": "o que é o projeto jurado voluntário?",
+      "resposta": [
+        {
+          "arquivo": "Projeto Jurado Voluntário.md",
+          "padrao": "O Projeto Jurado Voluntário foi instituído"
+        }
+      ]
+    },
+    {
+      "id": "q22",
+      "categoria": "procedimento_cpp",
+      "pergunta": "quando o juiz pronuncia o acusado?",
+      "resposta": [
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "Art\\. 413\\. O juiz, fundamentadamente, pronunciar"
+        },
+        {
+          "arquivo": "Apresentação - Tribunal do Júri Faculdade.md",
+          "padrao": "POSSÍVEIS DECISÕES PRIMEIRA FASE"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q23",
+      "categoria": "procedimento_cpp",
+      "pergunta": "quando ocorre a impronúncia?",
+      "resposta": [
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "Art\\. 414\\. Não se convencendo"
+        },
+        {
+          "arquivo": "Apresentação - Tribunal do Júri Faculdade.md",
+          "padrao": "POSSÍVEIS DECISÕES PRIMEIRA FASE"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q24",
+      "categoria": "procedimento_cpp",
+      "pergunta": "quais são as hipóteses de absolvição sumária?",
+      "resposta": [
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "Art\\. 415\\. O juiz, fundamentadamente, absolver"
+        },
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "provada a inexistência do fato"
+        },
+        {
+          "arquivo": "Apresentação - Tribunal do Júri Faculdade.md",
+          "padrao": "POSSÍVEIS DECISÕES PRIMEIRA FASE"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q25",
+      "categoria": "procedimento_cpp",
+      "pergunta": "qual o prazo máximo para concluir a primeira fase do procedimento do júri?",
+      "resposta": [
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "prazo máximo de 90 \\(noventa\\) dias"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q26",
+      "categoria": "procedimento_cpp",
+      "pergunta": "o que o juiz faz ao receber a denúncia no procedimento do júri?",
+      "resposta": [
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "responder à acusação, por escrito, no prazo de 10"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q27",
+      "categoria": "procedimento_cpp",
+      "pergunta": "quantos jurados são necessários para instalar a sessão?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "15 \\(quinze\\) jurados"
+        },
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "quinze jurados"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q28",
+      "categoria": "procedimento_cpp",
+      "pergunta": "como funcionam as recusas no sorteio do conselho de sentença?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "Art\\. 468\\. À medida que"
+        },
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "jurado recusado imotivadamente"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q29",
+      "categoria": "procedimento_cpp",
+      "pergunta": "quanto tempo a acusação e a defesa têm nos debates?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "uma hora e meia"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q30",
+      "categoria": "procedimento_cpp",
+      "pergunta": "em que ordem são formulados os quesitos?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "quesitos serão formulados na seguinte ordem"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q31",
+      "categoria": "procedimento_cpp",
+      "pergunta": "o que o juiz presidente decide na sentença depois da votação?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "Art\\. 492\\. Em seguida"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q32",
+      "categoria": "procedimento_cpp",
+      "pergunta": "quando pode haver desaforamento?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "dúvida sobre a imparcialidade do júri"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q33",
+      "categoria": "procedimento_cpp",
+      "pergunta": "como é a instrução em plenário depois do compromisso dos jurados?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "será iniciada a instrução plenária"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q34",
+      "categoria": "procedimento_cpp",
+      "pergunta": "as partes podem citar a decisão de pronúncia durante os debates?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "não poderão, sob pena de nulidade, fazer referência"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "q35",
+      "categoria": "conceitos_normas",
+      "pergunta": "quais são as possíveis decisões da primeira fase do júri?",
+      "resposta": [
+        {
+          "arquivo": "Apresentação - Tribunal do Júri Faculdade.md",
+          "padrao": "POSSÍVEIS DECISÕES PRIMEIRA FASE"
+        }
+      ]
+    },
+    {
+      "id": "q36",
+      "categoria": "conceitos_normas",
+      "pergunta": "o que o tribunal do júri julga?",
+      "resposta": [
+        {
+          "arquivo": "Apresentação aos Jurados.md",
+          "padrao": "O que o TRIBUNAL DO JÚRI julga"
+        }
+      ]
+    },
+    {
+      "id": "q37",
+      "categoria": "conceitos_normas",
+      "pergunta": "o que é feminicídio?",
+      "resposta": [
+        {
+          "arquivo": "Apresentação aos Jurados.md",
+          "padrao": "FEMINICÍDIO aquele praticado contra mulher"
+        }
+      ]
+    },
+    {
+      "id": "q38",
+      "categoria": "conceitos_normas",
+      "pergunta": "qual a missão do ministério público no tribunal do júri?",
+      "resposta": [
+        {
+          "arquivo": "Apresentação - Tribunal do Júri Faculdade.md",
+          "padrao": "MISSÃO E FUNÇÃO"
+        }
+      ]
+    },
+    {
+      "id": "q39",
+      "categoria": "conceitos_normas",
+      "pergunta": "o que é atuação resolutiva segundo o CNMP?",
+      "resposta": [
+        {
+          "arquivo": "Manual de manual de resolutividade CNMP.md",
+          "padrao": "atuação resolutiva é aquela por meio da qual"
+        },
+        {
+          "arquivo": "Manual de manual de resolutividade CNMP.md",
+          "padrao": "resolutividade consiste na qualidade da atuação"
+        }
+      ]
+    },
+    {
+      "id": "q40",
+      "categoria": "conceitos_normas",
+      "pergunta": "o que é o planejamento estratégico 2021-2029 do MPMA?",
+      "resposta": [
+        {
+          "arquivo": "ATOREG - 262022 Planejamento atribuição SEPLAG.md",
+          "padrao": "Art\\. 1º O Planejamento Estratégico"
+        },
+        {
+          "arquivo": "ATOREG - 262022 Planejamento atribuição SEPLAG.md",
+          "padrao": "Art\\. 2º O Plano Estratégico 2021-2029"
+        }
+      ]
+    },
+    {
+      "id": "q41",
+      "categoria": "conceitos_normas",
+      "pergunta": "o que diz a nota técnica sobre os direitos das vítimas?",
+      "resposta": [
+        {
+          "arquivo": "NTC-CAOJURI22025.md",
+          "padrao": "Cuida-se de Nota Técnica Conjunta"
+        }
+      ]
+    },
+    {
+      "id": "q42",
+      "categoria": "conceitos_normas",
+      "pergunta": "qual o objetivo de desenvolvimento sustentável sobre paz e justiça?",
+      "resposta": [
+        {
+          "arquivo": "ODS.md",
+          "padrao": "ODS 16 - \\*\\*Promover sociedades pacíficas"
+        }
+      ]
+    },
+    {
+      "id": "q43",
+      "categoria": "conceitos_normas",
+      "pergunta": "quais são os mandamentos do decálogo do promotor do júri?",
+      "resposta": [
+        {
+          "arquivo": "Decálogo do Promotor do Júri.md",
+          "padrao": "Questiona o espelho"
+        }
+      ]
+    },
+    {
+      "id": "p01",
+      "categoria": "parafrase",
+      "pergunta": "quem não pode ser jurado por causa da profissão?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "estão isentos do serviço do júri"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "p02",
+      "categoria": "parafrase",
+      "pergunta": "um réu pode ser julgado em outra cidade se houver risco para a segurança dele?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "dúvida sobre a imparcialidade do júri"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "p03",
+      "categoria": "parafrase",
+      "pergunta": "o juiz acha que não há prova suficiente, o caso vai para o júri?",
+      "resposta": [
+        {
+          "arquivo": "Código 1ª Fase.md",
+          "padrao": "Art\\. 414\\. Não se convencendo"
+        },
+        {
+          "arquivo": "Apresentação - Tribunal do Júri Faculdade.md",
+          "padrao": "POSSÍVEIS DECISÕES PRIMEIRA FASE"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "p04",
+      "categoria": "parafrase",
+      "pergunta": "quanto tempo cada lado tem para falar no plenário?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "uma hora e meia"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "p05",
+      "categoria": "parafrase",
+      "pergunta": "como falar com a equipe que apoia os promotores do júri?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "3219-1980"
+        }
+      ]
+    },
+    {
+      "id": "p06",
+      "categoria": "parafrase",
+      "pergunta": "onde fica a sede do centro de apoio ao júri?",
+      "resposta": [
+        {
+          "arquivo": "CAOJÚRI - MPMA.md",
+          "padrao": "Oswaldo\\s+Cruz"
+        }
+      ]
+    },
+    {
+      "id": "p07",
+      "categoria": "parafrase",
+      "pergunta": "qual o número mínimo de pessoas para começar o julgamento?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "15 \\(quinze\\) jurados"
+        },
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "quinze jurados"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    },
+    {
+      "id": "p08",
+      "categoria": "parafrase",
+      "pergunta": "quais perguntas os jurados respondem na votação?",
+      "resposta": [
+        {
+          "arquivo": "Código 2ª Fase.md",
+          "padrao": "quesitos serão formulados na seguinte ordem"
+        }
+      ],
+      "apoio": [
+        {
+          "arquivo": "arquivo",
+          "padrao": "padrao"
+        }
+      ]
+    }
+  ]
+}
