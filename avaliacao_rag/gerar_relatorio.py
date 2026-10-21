@@ -10,12 +10,25 @@ Saída:     resultados/relatorio_rag.html (abre no navegador, sem internet; as f
 """
 import argparse
 import json
+import subprocess
+from datetime import date
 
 from comum import PASTA, RESULTADOS
 from metricas_recuperacao import EXPLICACOES
 
 ENVELOPE = ('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1"></head><body>{}</body></html>')
+
+
+def referencia_git():
+    """Commit, branch e data atuais, para o diagnóstico não ficar preso a um commit fixo."""
+    def git(*args):
+        try:
+            return subprocess.check_output(["git", *args], cwd=PASTA, text=True).strip()
+        except (OSError, subprocess.CalledProcessError):
+            return "desconhecido"
+    return {"commit": git("rev-parse", "--short", "HEAD"), "branch": git("branch", "--show-current"),
+            "data": date.today().strftime("%d/%m/%Y")}
 
 
 def montar_fragmento():
@@ -25,6 +38,7 @@ def montar_fragmento():
         "diag": json.load(open(PASTA / "diagnostico.json", encoding="utf-8")),
         "expl": EXPLICACOES,
     }
+    dados["diag"]["referencia"] = dados["diag"]["referencia"].format(**referencia_git())
     modelo = (PASTA / "template_relatorio.html").read_text(encoding="utf-8")
     payload = json.dumps(dados, ensure_ascii=False).replace("</", "<\\/")
     return modelo.replace("__DADOS__", payload)

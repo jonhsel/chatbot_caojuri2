@@ -1,23 +1,11 @@
 {
-  "referencia": "Diagnóstico feito em 21/10/2026 sobre o commit 0794dfa (branch master). Os números marcados como medidos foram obtidos nesta análise; os demais são leitura do código.",
+  "referencia": "Diagnóstico feito sobre o commit {commit} (branch {branch}, {data}). Os números marcados como medidos foram obtidos na última execução de executar_tudo.py; os demais são leitura do código.",
   "achados": [
     {
       "severidade": "atencao",
-      "titulo": "O aviso “até 2 perguntas por minuto” ficou obsoleto",
-      "detalhe": "A linha 215 de chatbot_caojuri_salvar.py ainda diz que o chat processa até 2 perguntas por minuto. Esse limite existia porque cada pergunta enviava o acervo inteiro (~470 mil tokens). Com o RAG cada pergunta envia ~5,5 mil tokens, então o limite deixa de ser o TPM e passa a ser o RPM da sua chave.",
-      "evidencia": "medido"
-    },
-    {
-      "severidade": "atencao",
       "titulo": "O documento fixo ocupa quase metade do contexto",
-      "detalhe": "“CAOJÚRI - MPMA.md” entra inteiro em toda pergunta: 2.265 tokens de uma média de ~5.190 (44%). Isso garante as respostas sobre o CAOJÚRI, mas gasta tokens quando a pergunta é sobre outro assunto. Alternativa: incluí-lo só quando a pergunta citar o CAOJÚRI.",
+      "detalhe": "“CAOJÚRI - MPMA.md” entra inteiro em toda pergunta: 2.209 tokens de uma média de ~4.950 (45%). Isso garante as respostas sobre o CAOJÚRI, mas gasta tokens quando a pergunta é sobre outro assunto. Alternativa: incluí-lo só quando a pergunta citar o CAOJÚRI.",
       "evidencia": "medido"
-    },
-    {
-      "severidade": "atencao",
-      "titulo": "chatbot_caojuri.py continua sem RAG",
-      "detalhe": "Se esse arquivo for executado, o app volta a enviar todo o acervo a cada pergunta e a pedir a chave da API num campo de texto. Vale arquivá-lo ou removê-lo para ninguém iniciar o app errado.",
-      "evidencia": "código"
     },
     {
       "severidade": "melhoria",
@@ -66,7 +54,6 @@
     "Confirmar os limites reais de TPM, RPM e RPD da sua chave no painel Rate limit do AI Studio e rodar medir_tokens.py com --tpm, --rpm e --rpd.",
     "Rodar medir_tokens.py com --modo api para obter a contagem exata de tokens do modelo.",
     "Revisar e ampliar o golden_set.json com perguntas reais dos usuários; ele é a parte que mais influencia as métricas.",
-    "Atualizar ou remover o aviso de 2 perguntas por minuto.",
     "Testar um stemmer em português ou uma busca híbrida (BM25 + embeddings) e comparar com as mesmas métricas."
   ]
 }
