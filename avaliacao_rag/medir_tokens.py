@@ -94,14 +94,18 @@ def main():
     # ---------------- trechos e contexto do RAG ----------------
     retriever = BM25Retriever(docs)
     tokens_trechos = [contar(f"[Fonte: {n}]\n{t}") for n, t in retriever.trechos]
-    doc_fixo_texto = next(c for n, c in docs if nfc(n) == nfc(cfg["doc_fixo"]))
-    tokens_doc_fixo = contar(f"[Fonte: {cfg['doc_fixo']}]\n{doc_fixo_texto}\n\n")
+    # DOC_SEMPRE_INCLUIDO pode estar comentado no app (sem documento fixo)
+    prefixo_fixo = ""
+    if cfg["doc_fixo"]:
+        doc_fixo_texto = next(c for n, c in docs if nfc(n) == nfc(cfg["doc_fixo"]))
+        prefixo_fixo = f"[Fonte: {cfg['doc_fixo']}]\n{doc_fixo_texto}\n\n"
+    tokens_doc_fixo = contar(prefixo_fixo) if prefixo_fixo else 0
 
     golden = json.load(open(args.golden, encoding="utf-8"))
     por_pergunta = []
     for c in golden["consultas"]:
         recuperado = retriever.contexto(c["pergunta"], k_prod)
-        contexto = f"[Fonte: {cfg['doc_fixo']}]\n{doc_fixo_texto}\n\n{recuperado}"   # igual ao app
+        contexto = f"{prefixo_fixo}{recuperado}"   # igual ao app
         t_ctx, t_perg = contar(contexto), contar(c["pergunta"])
         por_pergunta.append({"id": c["id"], "categoria": c["categoria"], "pergunta": c["pergunta"],
                              "n_trechos": len(retriever.busca(c["pergunta"], k_prod)),

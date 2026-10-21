@@ -2,9 +2,9 @@
   "referencia": "Diagnóstico feito sobre o commit {commit} (branch {branch}, {data}). Os números marcados como medidos foram obtidos na última execução de executar_tudo.py; os demais são leitura do código.",
   "achados": [
     {
-      "severidade": "atencao",
-      "titulo": "O documento fixo ocupa quase metade do contexto",
-      "detalhe": "“CAOJÚRI - MPMA.md” entra inteiro em toda pergunta: 2.209 tokens de uma média de ~4.950 (45%). Isso garante as respostas sobre o CAOJÚRI, mas gasta tokens quando a pergunta é sobre outro assunto. Alternativa: incluí-lo só quando a pergunta citar o CAOJÚRI.",
+      "severidade": "info",
+      "titulo": "Documento fixo desativado",
+      "detalhe": "DOC_SEMPRE_INCLUIDO está comentado em chatbot_caojuri_salvar.py, então “CAOJÚRI - MPMA.md” só entra no contexto quando o BM25 o recupera. O contexto caiu para ~2.740 tokens por pergunta, mas perguntas genéricas sobre o CAOJÚRI podem não recuperar os trechos certos.",
       "evidencia": "medido"
     },
     {

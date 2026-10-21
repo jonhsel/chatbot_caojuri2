@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-10-21T15:17:17",
+ "gerado_em": "2026-10-21T15:21:33",
  "recuperador": "BM25Retriever (rag.py) - chunk_size=1500, overlap=200, k1=1.5, b=0.75",
  "k_producao": 8,
  "ks": [

@@ -73,7 +73,7 @@ def main():
     retriever = BM25Retriever(docs)
     trechos_norm = [(nfc(n), normaliza(t)) for n, t in retriever.trechos]
     idx_por_objeto = {id(t): i for i, t in enumerate(retriever.trechos)}
-    idx_doc_fixo = {i for i, (n, _) in enumerate(trechos_norm) if n == nfc(cfg["doc_fixo"])}
+    idx_doc_fixo = {i for i, (n, _) in enumerate(trechos_norm) if cfg["doc_fixo"] and n == nfc(cfg["doc_fixo"])}
 
     golden = json.load(open(args.golden, encoding="utf-8"))
     consultas_saida, problemas = [], []

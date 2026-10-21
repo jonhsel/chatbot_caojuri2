@@ -50,7 +50,7 @@ def ler_config_do_app() -> dict:
     return {
         "k_trechos": int(re.search(r"^K_TRECHOS\s*=\s*(\d+)", src, re.M).group(1)),
         "janela_historico": int(re.search(r"^JANELA_HISTORICO\s*=\s*(\d+)", src, re.M).group(1)),
-        "doc_fixo": re.search(r'^DOC_SEMPRE_INCLUIDO\s*=\s*"([^"]+)"', src, re.M).group(1),
+        "doc_fixo": (m.group(1) if (m := re.search(r'^DOC_SEMPRE_INCLUIDO\s*=\s*"([^"]+)"', src, re.M)) else None),
         "arquivos": re.findall(r'"([^"]+\.md)"', bloco),
         "modelo": re.search(r"ChatGoogleGenerativeAI\(\s*model='([^']+)'", src).group(1),
         "system_message": re.search(r"system_message = '''(.*?)'''", src, re.S).group(1),
