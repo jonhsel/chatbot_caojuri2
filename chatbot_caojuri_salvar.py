@@ -52,7 +52,7 @@ MEMORIA = ConversationBufferMemory()
 # Quantidade de trechos recuperados por pergunta e de mensagens de histórico enviadas ao modelo
 K_TRECHOS = 8
 JANELA_HISTORICO = 6  # 3 trocas (pergunta + resposta)
-DOC_SEMPRE_INCLUIDO = "CAOJÚRI - MPMA.md"
+#DOC_SEMPRE_INCLUIDO = "CAOJÚRI - MPMA.md"
 
 #pasta_arquivos = os.path.join('mount', 'src','chatbot_caojuri2', 'arquivos')
 #pasta_arquivos = '/mount/src/chatbot_caojuri2/arquivos/'
@@ -157,8 +157,8 @@ def carrega_modelo(documentos):
     chain = template | chat
     st.session_state['chain'] = chain
     st.session_state['retriever'] = BM25Retriever(documentos)
-    st.session_state['doc_fixo'] = next(
-        (c for n, c in documentos if n == DOC_SEMPRE_INCLUIDO), '')
+    #st.session_state['doc_fixo'] = next(
+    #    (c for n, c in documentos if n == DOC_SEMPRE_INCLUIDO), '')
 
 def salvar_conversa():
     if 'memoria' in st.session_state:
@@ -235,9 +235,9 @@ def pagina_chat():
         ultimas_perguntas = [m.content for m in historico if m.type == 'human'][-1:]
         consulta = ' '.join(ultimas_perguntas + [input_usuario])
         contexto = st.session_state['retriever'].contexto(consulta, K_TRECHOS)
-        doc_fixo = st.session_state.get('doc_fixo', '')
-        if doc_fixo:
-            contexto = f'[Fonte: {DOC_SEMPRE_INCLUIDO}]\n{doc_fixo}\n\n{contexto}'
+        #doc_fixo = st.session_state.get('doc_fixo', '')
+        #if doc_fixo:
+        #    contexto = f'[Fonte: {DOC_SEMPRE_INCLUIDO}]\n{doc_fixo}\n\n{contexto}'
 
         chat = st.chat_message('ai')
         try:
