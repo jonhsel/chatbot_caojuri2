@@ -149,7 +149,7 @@ def carrega_modelo(documentos):
 
     #chat = ChatOpenAI(model='gpt-4o-mini', api_key=OPENAI_API_KEY)
     chat = ChatGoogleGenerativeAI(
-        model='gemini-3.8-flash', 
+        model='gemini-3.5-flash-lite', 
         api_key=GOOGLE_API_KEY,
         temperature=0.5,  # Ajuste a criatividade conforme necessário
         max_retries=1  # Evita esperas longas em cima do 429; o erro é tratado na interface
