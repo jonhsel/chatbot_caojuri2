@@ -158,7 +158,7 @@ def main():
     print(f"  MRR@{k_prod}       = {a['mrr']:.3f}")
     print(f"  MAP@{k_prod}       = {a['map']:.3f}")
     print(f"  NDCG@{k_prod}      = {a['ndcg']:.3f}")
-    print(f"  Resposta presente no contexto real (top-{k_prod} + documento fixo): {saida['cobertura_contexto_real']:.1%}")
+    print(f"  Resposta presente no contexto real (top-{k_prod}{' + documento fixo' if cfg['doc_fixo'] else ''}): {saida['cobertura_contexto_real']:.1%}")
     print(f"-> {args.saida}")
 
 

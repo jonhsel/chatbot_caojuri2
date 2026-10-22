@@ -113,7 +113,7 @@ ul.tight{margin:0;padding-left:1.1em} ul.tight li{margin:3px 0;max-width:68ch}
       <div class="panel"><div class="eyebrow">Antes · commit 93ceaf2</div><h3>O acervo inteiro em toda pergunta</h3>
         <ul class="tight"><li>Os 16 documentos eram concatenados e colocados na mensagem de sistema.</li><li>O histórico completo da conversa ia junto, crescendo a cada turno.</li><li>Cada pergunta consumia quase metade da janela de contexto e do TPM por minuto.</li></ul></div>
       <div class="panel"><div class="eyebrow">Depois · commit 46b6872</div><h3>Só o que a pergunta precisa</h3>
-        <ul class="tight"><li>O rag.py divide os documentos em trechos de 1.500 caracteres e os indexa com BM25.</li><li>A cada pergunta entram os <span id="k1"></span> trechos mais relevantes e o documento “CAOJÚRI - MPMA.md”.</li><li>O histórico vai limitado às últimas <span id="j1"></span> mensagens.</li></ul></div>
+        <ul class="tight"><li>O rag.py divide os documentos em trechos de 1.500 caracteres e os indexa com BM25.</li><li>A cada pergunta entram os <span id="k1"></span> trechos mais relevantes<span id="fixo1"></span>.</li><li>O histórico vai limitado às últimas <span id="j1"></span> mensagens.</li></ul></div>
     </div>
     <div class="panel chart"><h3>O que compõe o prompt depois do RAG <span class="sub">(a partir do 4º turno)</span></h3><div id="stack"></div><div class="legend" id="stack-leg"></div></div>
   </section>
@@ -224,14 +224,14 @@ const legend = (id, items) => $(id).innerHTML = items.map(([n, c]) => `<span><i 
 const MODS_NOME = () => (D.presets.modelos[T.modelo] || {}).nome || T.modelo;
 const AG = R.agregado[KP], RES = T.resumo, CAP = T.capacidade, LIM = T.limites;
 $('meta').textContent = `Modelo ${T.modelo} · k = ${KP} · gerado em ${T.gerado_em.slice(0, 10)}`;
-$('k1').textContent = T.configuracao_do_app.k_trechos; $('j1').textContent = T.configuracao_do_app.janela_historico_msgs;
+$('k1').textContent = T.configuracao_do_app.k_trechos; $('fixo1').textContent = T.configuracao_do_app.doc_fixo ? ` e o documento “${T.configuracao_do_app.doc_fixo}”` : ''; $('j1').textContent = T.configuracao_do_app.janela_historico_msgs;
 $('kpis').innerHTML = [
   [`${fmt(RES.entrada_antes_turno1)} <span class="arrow">→</span> ${fmt(RES.entrada_depois_turno1)}`, 'Tokens de entrada na 1ª pergunta', `redução de ${pct(RES.reducao_pct)} (÷${Math.round(RES.fator)})`],
   [`${LIM.rpm ? Math.min(CAP.perguntas_por_minuto_antes, LIM.rpm) : CAP.perguntas_por_minuto_antes} <span class="arrow">→</span> ${LIM.rpm ? Math.min(CAP.perguntas_por_minuto_depois, LIM.rpm) : CAP.perguntas_por_minuto_depois}`, 'Perguntas por minuto que cabem nos limites', `TPM ${fmt(LIM.tpm)}${LIM.rpm ? ' e RPM ' + LIM.rpm : ''} (${esc(MODS_NOME())})`],
-  [pct(AG.recall, 0), `Recall@${KP}: a resposta chega ao modelo`, `${pct(R.cobertura_contexto_real, 0)} contando o documento fixo`],
+  [pct(AG.recall, 0), `Recall@${KP}: a resposta chega ao modelo`, `${pct(R.cobertura_contexto_real, 0)} no contexto real do app`],
   [f2(AG.mrr), 'MRR: posição do 1º trecho útil', `${fmt(R.n_consultas)} perguntas, ${fmt(R.n_trechos_indexados)} trechos`]
 ].map(([v, l, n]) => `<div class="panel kpi"><div class="v mono">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`).join('');
-$('resumo-txt').textContent = `O RAG tira cerca de ${pct(RES.reducao_pct, 0)} dos tokens de cada pergunta. O custo está na recuperação: em ${pct(1 - R.cobertura_contexto_real, 0)} das perguntas de teste o trecho com a resposta não chegou ao modelo, mesmo contando o documento fixo.`;
+$('resumo-txt').textContent = `O RAG tira cerca de ${pct(RES.reducao_pct, 0)} dos tokens de cada pergunta. O custo está na recuperação: em ${pct(1 - R.cobertura_contexto_real, 0)} das perguntas de teste o trecho com a resposta não chegou ao modelo no contexto real do app.`;
 
 /* ---------- composição do prompt depois do RAG ---------- */
 (function(){
@@ -239,7 +239,7 @@ $('resumo-txt').textContent = `O RAG tira cerca de ${pct(RES.reducao_pct, 0)} do
   const hist = jan * (pm.tokens_pergunta + pm.tokens_resposta);
   const trechos = T.contexto_rag.media - T.doc_fixo_tokens;
   const seg = [['Instruções do sistema', T.prompt_sistema.depois, '--c3'], ['Documento fixo (CAOJÚRI)', T.doc_fixo_tokens, '--c4'],
-    [`Trechos do BM25 (média)`, trechos, '--depois'], [`Histórico (${jan} trocas)`, hist, '--antes'], ['Pergunta', pm.tokens_pergunta, '--c5']];
+    [`Trechos do BM25 (média)`, trechos, '--depois'], [`Histórico (${jan} trocas)`, hist, '--antes'], ['Pergunta', pm.tokens_pergunta, '--c5']].filter(s => s[1] > 0);
   const tot = seg.reduce((a, s) => a + s[1], 0);
   $('stack').innerHTML = `<div class="stack" role="img" aria-label="Composição do prompt">` + seg.map(([n, v, c]) =>
     `<div style="flex:${v};background:var(${c})" data-t="${esc(n)}: ${fmt(v)} tokens (${pct(v / tot)})"></div>`).join('') + `</div>`;
