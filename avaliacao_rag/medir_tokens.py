@@ -4,7 +4,7 @@ Mede o consumo de tokens do chatbot ANTES e DEPOIS do RAG e compara com os limit
 Uso:
     python avaliacao_rag/medir_tokens.py                       # tokenizador local (offline)
     python avaliacao_rag/medir_tokens.py --modo api            # contagem exata via API (exige GOOGLE_API_KEY)
-    python avaliacao_rag/medir_tokens.py --tpm 4000000 --rpm 1000 --rpd 10000   # seus limites reais
+    python avaliacao_rag/medir_tokens.py --modelo gemini-3.8-flash   # outro modelo de limites_modelos.json
 
 O que é MEDIDO (a partir dos arquivos reais e do código do app):
   - tokens do acervo inteiro, de cada documento e de cada trecho (chunk);
@@ -60,10 +60,12 @@ def main():
     ap.add_argument("--api-key", default=None)
     ap.add_argument("--golden", default=str(PASTA / "golden_set.json"))
     ap.add_argument("--saida", default=str(RESULTADOS / "tokens.json"))
-    ap.add_argument("--tpm", type=int, default=1_000_000, help="limite de tokens de ENTRADA por minuto (premissa)")
-    ap.add_argument("--rpm", type=int, default=None, help="limite de requisições por minuto (premissa)")
-    ap.add_argument("--rpd", type=int, default=None, help="limite de requisições por dia (premissa)")
-    ap.add_argument("--janela", type=int, default=1_048_576, help="limite de tokens de entrada do modelo (página do modelo, 21/10/2026)")
+    ap.add_argument("--modelo", default="gemini-3.5-flash-lite",
+                    help="modelo a avaliar; os limites vêm de limites_modelos.json (painel do AI Studio)")
+    ap.add_argument("--tpm", type=int, default=None, help="substitui o TPM do painel (tokens de ENTRADA por minuto)")
+    ap.add_argument("--rpm", type=int, default=None, help="substitui o RPM do painel")
+    ap.add_argument("--rpd", type=int, default=None, help="substitui o RPD do painel")
+    ap.add_argument("--janela", type=int, default=None, help="substitui o limite de tokens de entrada do modelo")
     ap.add_argument("--tokens-resposta", type=int, default=None, help="tokens médios por resposta (padrão: conversas salvas)")
     args = ap.parse_args()
 
@@ -72,7 +74,9 @@ def main():
     cfg = ler_config_do_app()
     k_prod, janela_msgs = cfg["k_trechos"], cfg["janela_historico"]
     docs = carregar_documentos(cfg["arquivos"])
-    contar = ContadorTokens(args.modo, args.api_key, cfg["modelo"])
+    presets = json.load(open(PASTA / "limites_modelos.json", encoding="utf-8"))
+    preset = presets["modelos"].get(args.modelo, {})
+    contar = ContadorTokens(args.modo, args.api_key, args.modelo)
     print("Contador:", contar.descricao)
 
     # ---------------- acervo ----------------
@@ -137,17 +141,19 @@ def main():
     reducao = 1 - depois_1 / antes_1
 
     # ---------------- limites (premissas) ----------------
-    tpm = args.tpm
+    tpm = args.tpm or preset.get("tpm") or 1_000_000
+    rpm = args.rpm or preset.get("rpm")
+    rpd = args.rpd or preset.get("rpd")
+    janela = args.janela or preset.get("janela") or 1_048_576
+    origem = lambda arg, chave: ("informado pelo usuário" if arg else
+                                 f"painel do AI Studio ({presets['fonte']})" if preset.get(chave) else "premissa")
     limites = {
-        "tpm": tpm, "rpm": args.rpm, "rpd": args.rpd, "janela_contexto": args.janela,
+        "tpm": tpm, "rpm": rpm, "rpd": rpd, "janela_contexto": janela,
         "status": {
-            "tpm": "PREMISSA - não publicado pelo Google para este modelo; valor inferido do aviso do próprio app "
-                   "('processa até 2 perguntas por minuto'). Confirme em aistudio.google.com > Rate limit."
-                   if args.tpm == 1_000_000 else "informado pelo usuário",
-            "rpm": "não informado" if args.rpm is None else "informado pelo usuário",
-            "rpd": "não informado" if args.rpd is None else "informado pelo usuário",
-            "janela_contexto": "confirmado pela página do modelo no Google (captura de tela de 21/10/2026): entrada 1.048.576 e saída 65.536 tokens"
-                               if args.janela == 1_048_576 else "informado pelo usuário",
+            "tpm": origem(args.tpm, "tpm"), "rpm": origem(args.rpm, "rpm"), "rpd": origem(args.rpd, "rpd"),
+            "janela_contexto": ("informado pelo usuário" if args.janela else
+                                preset["janela_fonte"] if preset.get("janela") else
+                                "NÃO CONFIRMADA para este modelo; usando 1.048.576 (valor do Gemini 3.8 Flash)"),
         },
         "metrica_do_tpm": "tokens de ENTRADA por minuto (documentação de rate limits do Gemini API)",
     }
@@ -156,15 +162,16 @@ def main():
         "perguntas_por_minuto_depois": tpm // depois_1,
         "pct_tpm_por_pergunta_antes": antes_1 / tpm,
         "pct_tpm_por_pergunta_depois": depois_1 / tpm,
-        "pct_janela_antes": antes_1 / args.janela,
-        "pct_janela_depois": depois_1 / args.janela,
+        "pct_janela_antes": antes_1 / janela,
+        "pct_janela_depois": depois_1 / janela,
         # faixa de TPM compatível com a regra "2 perguntas/min" observada na versão antiga
         "tpm_implicito_faixa": [2 * antes_1, 3 * antes_1 - 1],
     }
 
     saida = {
         "gerado_em": datetime.now().isoformat(timespec="seconds"),
-        "modelo": cfg["modelo"],
+        "modelo": args.modelo,
+        "modelo_no_app": cfg["modelo"],
         "contador": {"modo": contar.modo, "descricao": contar.descricao},
         "configuracao_do_app": {"k_trechos": k_prod, "janela_historico_msgs": janela_msgs, "doc_fixo": cfg["doc_fixo"],
                                 "n_documentos": len(docs)},

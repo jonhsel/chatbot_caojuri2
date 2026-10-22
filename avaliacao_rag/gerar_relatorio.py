@@ -37,6 +37,7 @@ def montar_fragmento():
         "ret": json.load(open(RESULTADOS / "retrieval.json", encoding="utf-8")),
         "diag": json.load(open(PASTA / "diagnostico.json", encoding="utf-8")),
         "expl": EXPLICACOES,
+        "presets": json.load(open(PASTA / "limites_modelos.json", encoding="utf-8")),
     }
     dados["diag"]["referencia"] = dados["diag"]["referencia"].format(**referencia_git())
     modelo = (PASTA / "template_relatorio.html").read_text(encoding="utf-8")

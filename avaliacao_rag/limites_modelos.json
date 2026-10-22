@@ -1,0 +1,18 @@
+{
+  "fonte": "Painel Rate limit do AI Studio, projeto Gemini API, nível gratuito, capturas de tela de 22/10/2026",
+  "modelos": {
+    "gemini-3.8-flash": {
+      "nome": "Gemini 3.8 Flash",
+      "rpm": 5, "tpm": 250000, "rpd": 20,
+      "janela": 1048576,
+      "janela_fonte": "página do modelo no Google (captura de 21/10/2026)",
+      "uso_observado_7d": "pico de 6,04 mil TPM, 1 RPM e 7 requisições no dia"
+    },
+    "gemini-3.5-flash-lite": {
+      "nome": "Gemini 3.5 Flash Lite",
+      "rpm": 15, "tpm": 250000, "rpd": 500,
+      "janela": null,
+      "janela_fonte": "não confirmada: a captura mostra só os limites de taxa"
+    }
+  }
+}

@@ -123,13 +123,14 @@ ul.tight{margin:0;padding-left:1.1em} ul.tight li{margin:3px 0;max-width:68ch}
     <div class="panel chart"><h3>Tokens de entrada por turno de uma conversa <span class="sub">(escala logarítmica)</span></h3><div id="ch-sessao"></div><div class="legend" id="leg-sessao"></div></div>
     <div class="panel"><h3>Onde estão os tokens do acervo</h3><p class="sub" id="docs-txt"></p><div id="docs"></div></div>
     <div class="panel">
-      <h3>Comparação com os limites do modelo <span class="tag prem">premissas editáveis</span></h3>
-      <p class="sub">A documentação do Google não publica TPM, RPM e RPD por modelo; eles aparecem no painel Rate limit do AI Studio, por projeto. O TPM inicial é uma premissa: é o valor que explica o aviso do próprio app (2 perguntas por minuto). Troque pelos seus.</p>
+      <h3>Comparação com os limites do modelo <span class="tag" id="lim-tag"></span></h3>
+      <p class="sub" id="lim-fonte"></p>
       <div class="form">
-        <label>TPM (tokens de entrada/min)<input id="i-tpm" type="number" min="1" step="1000" value="1000000"></label>
+        <label>Modelo<select id="i-modelo"></select></label>
+        <label>TPM (tokens de entrada/min)<input id="i-tpm" type="number" min="1" step="1000"></label>
         <label>RPM (requisições/min)<input id="i-rpm" type="number" min="1" placeholder="não informado"></label>
         <label>RPD (requisições/dia)<input id="i-rpd" type="number" min="1" placeholder="não informado"></label>
-        <label>Limite de entrada (tokens)<input id="i-jan" type="number" min="1000" step="1000" value="1048576"></label>
+        <label>Limite de entrada (tokens)<input id="i-jan" type="number" min="1000" step="1000"></label>
       </div>
       <div id="lim" style="margin-top:14px"></div>
     </div>
@@ -220,12 +221,13 @@ function lineChart(el, o){
 const legend = (id, items) => $(id).innerHTML = items.map(([n, c]) => `<span><i style="background:${c}"></i>${esc(n)}</span>`).join('');
 
 /* ---------- cabeçalho e KPIs ---------- */
+const MODS_NOME = () => (D.presets.modelos[T.modelo] || {}).nome || T.modelo;
 const AG = R.agregado[KP], RES = T.resumo, CAP = T.capacidade, LIM = T.limites;
 $('meta').textContent = `Modelo ${T.modelo} · k = ${KP} · gerado em ${T.gerado_em.slice(0, 10)}`;
 $('k1').textContent = T.configuracao_do_app.k_trechos; $('j1').textContent = T.configuracao_do_app.janela_historico_msgs;
 $('kpis').innerHTML = [
   [`${fmt(RES.entrada_antes_turno1)} <span class="arrow">→</span> ${fmt(RES.entrada_depois_turno1)}`, 'Tokens de entrada na 1ª pergunta', `redução de ${pct(RES.reducao_pct)} (÷${Math.round(RES.fator)})`],
-  [`${CAP.perguntas_por_minuto_antes} <span class="arrow">→</span> ${CAP.perguntas_por_minuto_depois}`, 'Perguntas por minuto que cabem no TPM', `com TPM de ${fmt(LIM.tpm)} (premissa)`],
+  [`${LIM.rpm ? Math.min(CAP.perguntas_por_minuto_antes, LIM.rpm) : CAP.perguntas_por_minuto_antes} <span class="arrow">→</span> ${LIM.rpm ? Math.min(CAP.perguntas_por_minuto_depois, LIM.rpm) : CAP.perguntas_por_minuto_depois}`, 'Perguntas por minuto que cabem nos limites', `TPM ${fmt(LIM.tpm)}${LIM.rpm ? ' e RPM ' + LIM.rpm : ''} (${esc(MODS_NOME())})`],
   [pct(AG.recall, 0), `Recall@${KP}: a resposta chega ao modelo`, `${pct(R.cobertura_contexto_real, 0)} contando o documento fixo`],
   [f2(AG.mrr), 'MRR: posição do 1º trecho útil', `${fmt(R.n_consultas)} perguntas, ${fmt(R.n_trechos_indexados)} trechos`]
 ].map(([v, l, n]) => `<div class="panel kpi"><div class="v mono">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`).join('');
@@ -262,23 +264,36 @@ legend('leg-sessao', [['Antes do RAG', css('--antes')], ['Depois do RAG', css('-
 
 /* ---------- limites (interativo) ---------- */
 function renderLimites(){
-  const tpm = +$('i-tpm').value || 0, rpm = +$('i-rpm').value || null, rpd = +$('i-rpd').value || null, jan = +$('i-jan').value || 1;
+  const tpm = +$('i-tpm').value || 1, rpm = +$('i-rpm').value || null, rpd = +$('i-rpd').value || null, jan = +$('i-jan').value || 1;
   const a = RES.entrada_antes_turno1, d = RES.entrada_depois_turno1;
   const porMin = t => { const lim = [['TPM', Math.floor(tpm / t)]]; if (rpm) lim.push(['RPM', rpm]); lim.sort((x, y) => x[1] - y[1]); return lim[0]; };
   const [la, na] = porMin(a), [ld, nd] = porMin(d);
+  const cabe = (t, n) => t > tpm ? '0 <span class="sub">(a pergunta sozinha passa do TPM)</span>' : `${n}`;
   const barra = (v, cor) => `<div class="tr" style="height:14px;background:var(--grid);border-radius:3px;overflow:hidden"><b style="display:block;height:100%;width:${Math.min(100, v * 100)}%;background:${cor}"></b></div>`;
   const dia = (n, t) => { const porTpm = Math.floor(tpm / t) * 1440; const lim = rpd ? Math.min(rpd, porTpm) : porTpm; return rpd && rpd < porTpm ? `${fmt(lim)} (limita o RPD)` : `${fmt(lim)}${rpd ? '' : ' (só pelo TPM)'}`; };
   $('lim').innerHTML = `<div class="scroll"><table><thead><tr><th></th><th class="num antes">Antes</th><th class="num depois">Depois</th></tr></thead><tbody>
     <tr><td>Tokens de entrada na 1ª pergunta</td><td class="num">${fmt(a)}</td><td class="num">${fmt(d)}</td></tr>
     <tr><td>Parte do TPM que uma pergunta usa</td><td class="num">${pct(a / tpm)}</td><td class="num">${pct(d / tpm)}</td></tr>
     <tr><td>Parte da janela de contexto</td><td class="num">${pct(a / jan)}${a > jan ? ' ✗ não cabe' : ''}</td><td class="num">${pct(d / jan)}</td></tr>
-    <tr><td>Perguntas por minuto que cabem</td><td class="num">${na} <span class="sub">(limita o ${la})</span></td><td class="num">${nd} <span class="sub">(limita o ${ld})</span></td></tr>
+    <tr><td>Perguntas por minuto que cabem</td><td class="num">${cabe(a, na)}${a > tpm ? '' : ` <span class="sub">(limita o ${la})</span>`}</td><td class="num">${cabe(d, nd)}${d > tpm ? '' : ` <span class="sub">(limita o ${ld})</span>`}</td></tr>
     <tr><td>Perguntas por dia, no ritmo máximo</td><td class="num">${dia(0, a)}</td><td class="num">${dia(0, d)}</td></tr></tbody></table></div>
     <div style="display:grid;gap:8px;margin-top:12px"><div><div class="sub">Uso do TPM por pergunta, antes</div>${barra(a / tpm, 'var(--antes)')}</div><div><div class="sub">Uso do TPM por pergunta, depois</div>${barra(d / tpm, 'var(--depois)')}</div></div>
-    <p class="sub" style="margin-top:10px">${rpm ? '' : 'Sem o RPM informado só dá para ver o limite pelo TPM. Depois do RAG, o RPM tende a ser o próximo gargalo. '}O TPM conta tokens de entrada. Faixa de TPM compatível com “2 por minuto” na versão antiga: ${fmt(CAP.tpm_implicito_faixa[0])} a ${fmt(CAP.tpm_implicito_faixa[1])}.</p>`;
+    <p class="sub" style="margin-top:10px">${rpm ? '' : 'Sem o RPM informado só dá para ver o limite pelo TPM. '}O TPM conta tokens de entrada. Os valores usam a 1ª pergunta; com histórico (até o 4º turno) a entrada sobe para cerca de ${fmt(T.sessao[3].entrada_depois)} tokens.</p>`;
 }
+const PRE = D.presets, MODS = PRE.modelos;
+$('i-modelo').innerHTML = Object.entries(MODS).map(([k, m]) => `<option value="${k}">${esc(m.nome)}</option>`).join('');
+function aplicaPreset(k){
+  const m = MODS[k] || {};
+  $('i-tpm').value = m.tpm || LIM.tpm; $('i-rpm').value = m.rpm || ''; $('i-rpd').value = m.rpd || ''; $('i-jan').value = m.janela || 1048576;
+  const jan = m.janela ? `Limite de entrada: ${m.janela_fonte}.` : `Limite de entrada: ${m.janela_fonte}. O campo usa 1.048.576, valor do Gemini 3.8 Flash, até você confirmar.`;
+  $('lim-fonte').textContent = `TPM, RPM e RPD vêm do painel Rate limit do AI Studio (${PRE.fonte}). ${jan} Os campos podem ser editados, por exemplo ao mudar de nível.`;
+  $('lim-tag').textContent = 'painel do AI Studio'; $('lim-tag').className = 'tag ok';
+  renderLimites();
+}
+$('i-modelo').value = MODS[T.modelo] ? T.modelo : Object.keys(MODS)[0];
+$('i-modelo').addEventListener('change', e => aplicaPreset(e.target.value));
 ['i-tpm', 'i-rpm', 'i-rpd', 'i-jan'].forEach(i => $(i).addEventListener('input', renderLimites));
-renderLimites();
+aplicaPreset($('i-modelo').value);
 
 /* ---------- métricas ---------- */
 $('met-sub').textContent = `${R.n_consultas} perguntas, ${R.n_trechos_indexados} trechos indexados. Valores com k = ${KP}, o mesmo K_TRECHOS do app.`;
@@ -359,7 +374,8 @@ $('diag').innerHTML = DG.achados.map(a => `<div class="find"><div class="t"><spa
 $('passos').innerHTML = DG.proximos_passos.map(p => `<li>${esc(p)}</li>`).join('');
 $('cuid').innerHTML = [
   `Tokens: contados com ${T.contador.descricao}. Para o número exato do modelo, rode medir_tokens.py com --modo api.`,
-  `Limites: TPM, RPM e RPD não são publicados por modelo na documentação do Google. O TPM de ${fmt(LIM.tpm)} é uma premissa. O limite de ${fmt(LIM.janela_contexto)} tokens de entrada (e 65.536 de saída) vem da página do modelo no Google.`,
+  `Limites: TPM, RPM e RPD vêm do painel do AI Studio no nível gratuito (capturas de 22/10/2026) e mudam se você ativar o faturamento. O limite de 1.048.576 tokens de entrada (e 65.536 de saída) está confirmado só para o Gemini 3.8 Flash; para o 3.5 Flash Lite falta conferir na página do modelo.`,
+  `Uso real observado no painel do Gemini 3.8 Flash: pico de 6,04 mil tokens por minuto em 7 dias, valor próximo do prompt de ~5,5 a 6,8 mil tokens medido aqui para uma pergunta com RAG.`,
   `Resposta e histórico: ${T.premissas_conversa.tokens_resposta} tokens por resposta e ${T.premissas_conversa.tokens_pergunta} por pergunta, tirados de ${T.premissas_conversa.fonte} (conversas de abril de 2025, outro modelo).`,
   `Gabarito: as ${R.n_consultas} perguntas e a relevância de cada trecho foram definidas por padrões de texto, sem revisão humana. Ao trocar o critério “o trecho é o artigo” por “o trecho contém o fato-resposta”, o Recall@${KP} subiu de 0,69 para 0,74. Trate os valores como linha de base.`,
   `Cada pergunta é avaliada isoladamente. O app também usa a pergunta anterior na busca, o que não foi medido.`,

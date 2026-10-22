@@ -8,6 +8,12 @@
       "evidencia": "medido"
     },
     {
+      "severidade": "info",
+      "titulo": "Limites do nível gratuito do modelo",
+      "detalhe": "No painel do AI Studio, o Gemini 3.5 Flash Lite tem 15 RPM, 250 mil TPM e 500 RPD; o 3.8 Flash tem 5 RPM, 250 mil TPM e 20 RPD. Antes do RAG, uma única pergunta (~470 mil tokens) passava do TPM. Com o RAG cada pergunta usa ~5,5 mil tokens: o TPM permitiria ~45 por minuto e o RPM (15) passa a ser o limite; ao longo do dia, o RPD.",
+      "evidencia": "medido"
+    },
+    {
       "severidade": "melhoria",
       "titulo": "Download e índice refeitos a cada clique em “Iniciar o Parquet”",
       "detalhe": "O app baixa os 16 arquivos do GitHub, um por vez, e recria o índice BM25 sempre que o botão é usado. Aqui o download levou 8,5 s e o índice 0,8 s (valores deste ambiente, não do Streamlit Cloud). Um cache de recurso do Streamlit para o recuperador evitaria repetir isso entre sessões.",
@@ -51,7 +57,7 @@
     }
   ],
   "proximos_passos": [
-    "Confirmar os limites reais de TPM, RPM e RPD da sua chave no painel Rate limit do AI Studio e rodar medir_tokens.py com --tpm, --rpm e --rpd.",
+    "Conferir na página do Gemini 3.5 Flash Lite o limite de tokens de entrada (o relatório usa 1.048.576 provisoriamente) e testar a qualidade das respostas com ele: as métricas de recuperação não dependem do modelo, mas a qualidade das respostas depende.",
     "Rodar medir_tokens.py com --modo api para obter a contagem exata de tokens do modelo.",
     "Revisar e ampliar o golden_set.json com perguntas reais dos usuários; ele é a parte que mais influencia as métricas.",
     "Testar um stemmer em português ou uma busca híbrida (BM25 + embeddings) e comparar com as mesmas métricas."
